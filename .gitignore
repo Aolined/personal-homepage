@@ -1,0 +1,17 @@
+node_modules/
+coverage/
+
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+*.log
+npm-debug.log*
+.tmp-*.png
+
+.agents/
+.codex/
+.DS_Store
+Thumbs.db

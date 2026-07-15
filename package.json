@@ -1,0 +1,16 @@
+{
+  "name": "aolined-personal-scenes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A scene-based personal homepage with a live AI discussion feed.",
+  "type": "module",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node scripts/server.mjs",
+    "check": "node --check scripts/server.mjs && node --check scripts/server-policy.mjs && node --check scripts/ai-hot.mjs && node --check src/app.js",
+    "test": "node scripts/verify.mjs && node --test scripts/ai-hot.test.mjs scripts/release-contract.test.mjs scripts/server-path.test.mjs scripts/server.test.mjs scripts/ui-contract.test.mjs"
+  }
+}
