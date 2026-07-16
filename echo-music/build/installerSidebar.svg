@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="164" height="314" viewBox="0 0 164 314">
+  <rect width="164" height="314" fill="#ffffff"/>
+  <rect x="21" y="35" width="2" height="31" fill="#38e0c1"/>
+  <text x="35" y="45" fill="#1a8f7d" font-family="Microsoft YaHei UI, Arial, sans-serif" font-size="9" font-weight="700">ECHO MUSIC</text>
+  <text x="35" y="87" fill="#111217" font-family="Microsoft YaHei UI, Arial, sans-serif" font-size="26" font-weight="700">音乐</text>
+  <text x="35" y="108" fill="#6b7280" font-family="Microsoft YaHei UI, Arial, sans-serif" font-size="10">声场与歌词</text>
+  <line x1="24" y1="146" x2="142" y2="146" stroke="#dfe3e7"/>
+  <line x1="33" y1="178" x2="77" y2="178" stroke="#38e0c1" stroke-width="3"/>
+  <line x1="33" y1="192" x2="109" y2="192" stroke="#111217" stroke-width="3"/>
+  <circle cx="113" cy="192" r="3" fill="#f2b84b"/>
+  <text x="34" y="248" fill="#111217" font-family="Microsoft YaHei UI, Arial, sans-serif" font-size="9" font-weight="700">安装</text>
+  <text x="34" y="268" fill="#6b7280" font-family="Microsoft YaHei UI, Arial, sans-serif" font-size="9">D:\EchoMusic</text>
+</svg>

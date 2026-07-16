@@ -88,7 +88,9 @@ async function loadMusicStatus() {
       link.href = urls[link.dataset.musicLink];
       link.setAttribute('aria-disabled', 'false');
     });
-    musicStatus.textContent = `Echo Music ${payload.version || ''} · 本地服务在线`;
+    musicStatus.textContent = payload.deployment === 'public'
+      ? `Echo Music ${payload.version || ''} · 公网访客版`
+      : `Echo Music ${payload.version || ''} · 本地服务在线`;
     musicStatus.dataset.state = 'online';
   } catch {
     setMusicUnavailable();

@@ -11,3 +11,22 @@ services:
         value: production
       - key: TRUST_PROXY
         value: "true"
+      - key: ECHO_MUSIC_PUBLIC_URL
+        value: "https://aolined-echo-music.onrender.com"
+  - type: web
+    name: aolined-echo-music
+    runtime: node
+    plan: free
+    rootDir: echo-music
+    buildCommand: npm ci --omit=dev && npm test
+    startCommand: npm run web
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: PUBLIC_GUEST_MODE
+        value: "true"
+      - key: TRUST_PROXY
+        value: "true"

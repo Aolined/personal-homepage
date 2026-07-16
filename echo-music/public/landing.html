@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Echo Music 沉浸式可视化音乐播放器">
+  <meta name="referrer" content="no-referrer">
+  <title>Echo Music</title>
+  <link rel="stylesheet" href="/landing.css">
+</head>
+<body>
+  <div class="scroll-progress" aria-hidden="true"><i></i></div>
+  <canvas id="signal-canvas" aria-hidden="true"></canvas>
+
+  <header class="site-header">
+    <a class="site-brand" href="#top" aria-label="Echo Music 首页">
+      <span class="site-mark">EM</span>
+      <span>Echo Music</span>
+    </a>
+    <nav class="site-nav" aria-label="主导航">
+      <a href="#features">功能</a>
+      <a href="#demo">演示</a>
+      <a href="#versions">版本</a>
+      <a href="#access">使用</a>
+    </nav>
+    <a class="header-action" href="/app">进入播放器</a>
+  </header>
+
+  <main id="top">
+    <section class="site-hero" aria-labelledby="hero-title">
+      <div class="hero-mark" aria-hidden="true">E</div>
+      <h1 id="hero-title"><span>Echo</span> <b>Music</b></h1>
+      <div class="hero-kicker"><i></i> PRIVATE VISUAL RADIO <i></i></div>
+      <p>随音乐律动的沉浸式可视化播放器，把每一首歌变成一场只属于你的私人视觉演出。</p>
+      <div class="hero-actions">
+        <a class="primary-action" href="/app">打开网页版</a>
+        <a class="secondary-action" href="#demo">观看演示</a>
+      </div>
+      <div class="hero-meta">Windows 桌面体验 · Web 即开即用 · Echo Music 1.1.1</div>
+    </section>
+
+    <section id="features" class="feature-band" aria-labelledby="features-title">
+      <div class="section-heading">
+        <span>01 / EXPERIENCE</span>
+        <h2 id="features-title">音乐不只用来听</h2>
+      </div>
+      <div class="feature-grid">
+        <article><b>实时舞台</b><p>歌词、粒子与镜头跟随节奏变化，让播放过程保持流动。</p></article>
+        <article><b>多源曲库</b><p>搜索网易云与 QQ 音乐，也能导入本地歌曲和汽水分享。</p></article>
+        <article><b>专注控制</b><p>队列、音质、歌词与视觉参数集中在同一套播放工作流中。</p></article>
+      </div>
+    </section>
+
+    <section id="demo" class="demo-band" aria-labelledby="demo-title">
+      <div class="section-heading">
+        <span>02 / LIVE PLAYER</span>
+        <h2 id="demo-title">真实播放器，直接运行</h2>
+      </div>
+      <div class="player-preview">
+        <img src="/echo-player-preview.png" alt="Echo Music 播放器启动画面">
+      </div>
+      <a class="text-action" href="/app">在新页面打开播放器 <span aria-hidden="true">→</span></a>
+    </section>
+
+    <section id="versions" class="versions-band" aria-labelledby="versions-title">
+      <div class="section-heading">
+        <span>03 / EDITIONS</span>
+        <h2 id="versions-title">选择适合你的运行方式</h2>
+      </div>
+      <div class="edition-grid">
+        <article class="edition-row web-edition">
+          <div class="edition-head">
+            <span>WEB</span>
+            <h3>网页版 · 轻量体验</h3>
+            <p>无需安装，浏览器打开即可播放。</p>
+          </div>
+          <ul>
+            <li>搜索、播放、队列、歌单与歌词</li>
+            <li>粒子舞台和完整视觉调节</li>
+            <li>本地音乐与汽水分享链接导入</li>
+            <li class="edition-limit">受浏览器限制，部分扫码登录和后台能力不可用</li>
+          </ul>
+          <a class="edition-action" href="/app">打开网页版 <span aria-hidden="true">→</span></a>
+        </article>
+        <article class="edition-row desktop-edition">
+          <div class="edition-head">
+            <span>DESKTOP</span>
+            <h3>桌面版 · 完整体验</h3>
+            <p>包含网页版能力，并接入系统级功能。</p>
+          </div>
+          <ul>
+            <li>网易云、QQ 音乐与汽水官方扫码会话</li>
+            <li>桌面歌词、动态壁纸与全局快捷键</li>
+            <li>原生文件选择和更稳定的后台播放</li>
+            <li>独立窗口、沉浸模式与完整桌面控制</li>
+          </ul>
+          <a class="edition-download" href="/download/windows" download>下载桌面版 <span aria-hidden="true">↓</span></a>
+          <small class="edition-signing-note">当前安装包未签名，Windows 可能显示安全提示</small>
+        </article>
+      </div>
+    </section>
+
+    <section id="access" class="access-band" aria-labelledby="access-title">
+      <div>
+        <span>04 / ACCESS</span>
+        <h2 id="access-title">现在开始播放</h2>
+      </div>
+      <a class="primary-action" href="/app">进入 Echo Music</a>
+    </section>
+  </main>
+
+  <footer>
+    <span>Echo Music</span>
+    <span>Independent visual music player</span>
+  </footer>
+  <script src="/landing.js"></script>
+</body>
+</html>

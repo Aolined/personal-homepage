@@ -32,7 +32,9 @@ function requestJson(rawUrl) {
 }
 
 export function createMusicStatusService({
-  baseUrl = process.env.ECHO_MUSIC_URL || 'http://127.0.0.1:4175',
+  baseUrl = process.env.ECHO_MUSIC_PUBLIC_URL || process.env.ECHO_MUSIC_URL || 'http://127.0.0.1:4175',
+  publiclyHosted = Boolean(process.env.ECHO_MUSIC_PUBLIC_URL),
+  publicVersion = process.env.ECHO_MUSIC_VERSION || '1.1.1',
   fetchImpl = requestJson,
   onError = () => {},
 } = {}) {
@@ -40,6 +42,17 @@ export function createMusicStatusService({
 
   return {
     async getStatus() {
+      if (publiclyHosted) {
+        return {
+          available: true,
+          deployment: 'public',
+          productName: 'Echo Music',
+          version: publicVersion,
+          landingUrl: base.href,
+          appUrl: new URL('/app', base).href,
+          downloadUrl: new URL('/download/windows', base).href,
+        };
+      }
       try {
         const response = await fetchImpl(new URL('/api/app/version', base).href);
         if (!response.ok) throw new Error(`Echo Music returned ${response.status}`);

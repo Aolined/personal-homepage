@@ -36,3 +36,23 @@ test('does not expose dead links when Echo Music is offline', async () => {
     downloadUrl: null,
   });
 });
+
+test('keeps configured public entry points available while a free service wakes', async () => {
+  let probes = 0;
+  const service = createMusicStatusService({
+    baseUrl: 'https://aolined-echo-music.onrender.com/',
+    publiclyHosted: true,
+    fetchImpl: async () => { probes += 1; throw new Error('sleeping'); },
+  });
+
+  assert.deepEqual(await service.getStatus(), {
+    available: true,
+    deployment: 'public',
+    productName: 'Echo Music',
+    version: '1.1.1',
+    landingUrl: 'https://aolined-echo-music.onrender.com/',
+    appUrl: 'https://aolined-echo-music.onrender.com/app',
+    downloadUrl: 'https://aolined-echo-music.onrender.com/download/windows',
+  });
+  assert.equal(probes, 0);
+});

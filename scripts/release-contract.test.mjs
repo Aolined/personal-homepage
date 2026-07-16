@@ -31,3 +31,13 @@ test('Render blueprint uses the health check and npm start', async () => {
   assert.match(render, /healthCheckPath:\s*\/healthz/);
   assert.match(render, /key:\s*TRUST_PROXY/);
 });
+
+test('Render blueprint deploys Echo Music as an isolated public guest service', async () => {
+  const render = await read('render.yaml');
+
+  assert.match(render, /name:\s*aolined-echo-music/);
+  assert.match(render, /rootDir:\s*echo-music/);
+  assert.match(render, /startCommand:\s*npm run web/);
+  assert.match(render, /key:\s*PUBLIC_GUEST_MODE\s*\n\s*value:\s*"true"/);
+  assert.match(render, /key:\s*ECHO_MUSIC_PUBLIC_URL\s*\n\s*value:\s*"https:\/\/aolined-echo-music\.onrender\.com"/);
+});

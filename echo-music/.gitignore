@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/*
+!dist/Echo-Music-1.1.1-Setup.exe
+dist-*/
+out/
+release/
+releases/
+win-unpacked/
+*.exe
+!dist/Echo-Music-1.1.1-Setup.exe
+*.msi
+*.blockmap
+*.zip
+*.7z
+*.asar
+
+# User data and private state
+.cookie
+.qq-cookie
+updates/
+backups/
+*.log
+*.tmp
+*.cache
+.env
+.env.*
+
+# Local development noise
+AGENTS.md
+AI_HANDOFF.md
+docs/HANDOFF_NEXT_CHAT.md
+docs/PROJECT_MEMORY.md
+docs/SECURITY_REBUILD_2026-06-24.md
+.DS_Store
+Thumbs.db
+desktop.ini
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Historical local experiment files
+public/index.*.html
+!public/index.html
+
+# Screenshots and transient verification artifacts
+.playwright-cli/
+output/
+tmp/
+*.png.tmp
+verification/
+screenshots/
