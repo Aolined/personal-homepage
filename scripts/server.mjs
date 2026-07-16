@@ -3,6 +3,9 @@ import { createServer } from 'node:http';
 import { extname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createAiHotService } from './ai-hot.mjs';
+import { createGithubHotService } from './github-hot.mjs';
+import { createWeiboHotService } from './weibo-hot.mjs';
+import { createMusicStatusService } from './music-status.mjs';
 import { resolveStaticPath } from './server-path.mjs';
 import { createFixedWindowRateLimiter, getClientAddress } from './server-policy.mjs';
 
@@ -13,6 +16,8 @@ const contentTypes = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.mp3': 'audio/mpeg',
+  '.png': 'image/png',
   '.svg': 'image/svg+xml',
 };
 
@@ -61,9 +66,17 @@ function getRateLimitHeaders(result) {
 export function createHomepageServer({
   root = defaultRoot,
   hotSearch = createAiHotService(),
+  trendServices,
+  musicStatus = createMusicStatusService(),
   rateLimiter = createFixedWindowRateLimiter(),
   trustProxy = false,
 } = {}) {
+  const services = trendServices || {
+    ai: hotSearch,
+    github: createGithubHotService(),
+    weibo: createWeiboHotService(),
+  };
+
   return createServer(async (request, response) => {
     let requestUrl;
     let requestedPath;
@@ -85,7 +98,18 @@ export function createHomepageServer({
       return;
     }
 
+    if (requestedPath === '/api/music-status') {
+      writeJson(response, 200, await musicStatus.getStatus());
+      return;
+    }
+
     if (requestedPath === '/api/hot-search') {
+      const source = requestUrl.searchParams.get('source') || 'ai';
+      const service = Object.hasOwn(services, source) ? services[source] : null;
+      if (!service) {
+        writeJson(response, 400, { error: { code: 'INVALID_SOURCE', message: 'Unsupported trend source' } });
+        return;
+      }
       const force = requestUrl.searchParams.get('refresh') === '1';
       let rateLimitHeaders = {};
       if (force) {
@@ -100,7 +124,7 @@ export function createHomepageServer({
         }
       }
 
-      const result = await hotSearch.getHotSearch({ force });
+      const result = await service.getHotSearch({ force });
       writeJson(response, 200, result, rateLimitHeaders);
       return;
     }

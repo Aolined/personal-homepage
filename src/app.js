@@ -9,23 +9,93 @@ const mobileNext = document.querySelector('.mobile-scene-next');
 const directory = document.querySelector('.scene-directory');
 const directoryToggle = document.querySelector('.mobile-directory-toggle');
 const status = document.querySelector('.scene-status');
-const dialog = document.querySelector('.detail-dialog');
-const dialogMedia = dialog.querySelector('.dialog-media');
-const dialogKicker = dialog.querySelector('.dialog-kicker');
-const dialogTitle = dialog.querySelector('#dialog-title');
-const dialogDescription = dialog.querySelector('.dialog-description');
-const dialogFacts = dialog.querySelector('.dialog-facts');
-const dialogMeta = dialog.querySelector('.dialog-meta');
 const soundToggle = document.querySelector('.sound-toggle');
+const soundtrack = document.querySelector('#site-soundtrack');
+const soundLabel = soundToggle.querySelector('.sound-label');
 const hotList = document.querySelector('#hot-search-list');
 const hotStatus = document.querySelector('.hot-search-status');
 const hotRefresh = document.querySelector('.hot-refresh');
+const hotSourceLabel = document.querySelector('.hot-source');
+const hotTabs = [...document.querySelectorAll('.trend-tab')];
+const hotPanel = document.querySelector('#trend-panel');
 const remoteSceneMedia = [...document.querySelectorAll('[data-bg-src]')];
-const galleryImages = [...document.querySelectorAll('[data-gallery] img')];
-let lastTrigger = null;
-let audioContext = null;
-let ambientNodes = [];
-let hotLoading = false;
+const musicStatus = document.querySelector('.music-status');
+const musicRetry = document.querySelector('.music-retry');
+const musicLinks = [...document.querySelectorAll('[data-music-link]')];
+let activeHotSource = 'ai';
+const hotPayloads = new Map();
+const hotLoadingSources = new Set();
+const SOUND_PREFERENCE_KEY = 'aolined-sound-enabled';
+const SOUNDTRACK_VOLUME = 0.32;
+let soundFadeFrame = 0;
+let autoplayFallbackArmed = false;
+
+const HOT_SOURCES = {
+  ai: {
+    label: 'AI 热榜',
+    origin: 'https://news.ycombinator.com',
+    sourceLabel: 'SOURCE / HACKER NEWS AI · 近 7 天讨论',
+  },
+  github: {
+    label: 'GitHub 热搜',
+    origin: 'https://github.com',
+    sourceLabel: 'SOURCE / GITHUB SEARCH · 近 7 天新增仓库',
+  },
+  weibo: {
+    label: '微博热搜',
+    origin: 'https://s.weibo.com',
+    sourceLabel: 'SOURCE / WEIBO REALTIME · 实时公共话题',
+  },
+};
+
+function getSafeMusicUrl(value) {
+  try {
+    const url = new URL(value);
+    const localHttp = url.protocol === 'http:' && ['127.0.0.1', 'localhost'].includes(url.hostname);
+    return url.protocol === 'https:' || localHttp ? url.href : null;
+  } catch {
+    return null;
+  }
+}
+
+function setMusicUnavailable() {
+  musicStatus.textContent = 'Echo Music 本地服务未启动';
+  musicStatus.dataset.state = 'offline';
+  musicLinks.forEach((link) => {
+    link.removeAttribute('href');
+    link.setAttribute('aria-disabled', 'true');
+  });
+}
+
+async function loadMusicStatus() {
+  musicRetry.disabled = true;
+  musicStatus.textContent = '正在检测 Echo Music…';
+  musicStatus.dataset.state = 'loading';
+  try {
+    const response = await fetch('/api/music-status');
+    if (!response.ok) throw new Error('Music status request failed');
+    const payload = await response.json();
+    const urls = {
+      landing: getSafeMusicUrl(payload?.landingUrl),
+      app: getSafeMusicUrl(payload?.appUrl),
+      download: getSafeMusicUrl(payload?.downloadUrl),
+    };
+    if (!payload?.available || Object.values(urls).some((url) => !url)) {
+      setMusicUnavailable();
+      return;
+    }
+    musicLinks.forEach((link) => {
+      link.href = urls[link.dataset.musicLink];
+      link.setAttribute('aria-disabled', 'false');
+    });
+    musicStatus.textContent = `Echo Music ${payload.version || ''} · 本地服务在线`;
+    musicStatus.dataset.state = 'online';
+  } catch {
+    setMusicUnavailable();
+  } finally {
+    musicRetry.disabled = false;
+  }
+}
 
 function setActiveScene(id) {
   navLinks.forEach((link) => link.setAttribute('aria-current', link.hash === `#${id}` ? 'page' : 'false'));
@@ -88,18 +158,6 @@ remoteSceneMedia.forEach((media) => {
   else backgroundObserver.observe(media);
 });
 
-function markGalleryImageFailed(image) {
-  const button = image.closest('[data-gallery]');
-  button.classList.add('image-failed');
-  button.setAttribute('aria-label', `${image.alt}，图片加载失败`);
-  image.hidden = true;
-}
-
-galleryImages.forEach((image) => {
-  image.addEventListener('error', () => markGalleryImageFailed(image), { once: true });
-  if (image.complete && !image.naturalWidth) markGalleryImageFailed(image);
-});
-
 directoryToggle.addEventListener('click', () => directory.showModal());
 directory.querySelector('.directory-close').addEventListener('click', () => directory.close());
 directory.addEventListener('click', (event) => { if (event.target === directory) directory.close(); });
@@ -108,46 +166,31 @@ directory.querySelector('nav').addEventListener('click', (event) => {
   if (event.target.closest('.directory-link')) directory.close();
 });
 
-function showDetail(item, image) {
-  dialogKicker.textContent = item.kicker;
-  dialogTitle.textContent = item.title;
-  dialogDescription.textContent = item.description;
-  const imageAvailable = image && !image.hidden && image.naturalWidth > 0;
-  dialogMedia.classList.toggle('image-failed', !imageAvailable);
-  dialogMedia.style.backgroundImage = imageAvailable ? `url('${image.currentSrc || image.src}')` : 'none';
-  dialogFacts.replaceChildren();
-  dialogMeta.replaceChildren();
-  dialogFacts.hidden = true;
-  dialogMeta.hidden = true;
-  dialog.showModal();
-}
-
-document.addEventListener('click', (event) => {
-  const galleryButton = event.target.closest('[data-gallery]');
-  if (galleryButton) {
-    lastTrigger = galleryButton;
-    const item = siteContent.gallery[Number(galleryButton.dataset.gallery)];
-    showDetail(item, galleryButton.querySelector('img'));
-  }
-});
-
-function formatHot(value) {
+function formatHot(value, source) {
   if (!Number.isFinite(value) || value <= 0) return '热度更新中';
-  return `${new Intl.NumberFormat('zh-CN', { notation: 'compact', maximumFractionDigits: 1 }).format(value)} 讨论热度`;
+  const formatted = new Intl.NumberFormat('zh-CN', { notation: 'compact', maximumFractionDigits: 1 }).format(value);
+  if (source === 'github') return `${formatted} 仓库热度`;
+  if (source === 'weibo') return `${formatted} 实时热度`;
+  return `${formatted} 讨论热度`;
 }
 
-function getSafeHotUrl(value) {
+function getSafeHotUrl(value, source) {
   try {
     const url = new URL(value);
-    return url.origin === 'https://news.ycombinator.com' ? url.href : null;
+    const config = HOT_SOURCES[source];
+    if (!config || url.origin !== config.origin) return null;
+    if (source === 'ai' && url.pathname !== '/item') return null;
+    if (source === 'github' && url.pathname.split('/').filter(Boolean).length !== 2) return null;
+    if (source === 'weibo' && url.pathname !== '/weibo') return null;
+    return url.href;
   } catch {
     return null;
   }
 }
 
-function createHotItem(item) {
+function createHotItem(item, source) {
   if (!item || typeof item.title !== 'string' || !Number.isInteger(item.rank)) return null;
-  const href = getSafeHotUrl(item.url);
+  const href = getSafeHotUrl(item.url, source);
   if (!href) return null;
 
   const row = document.createElement('li');
@@ -161,12 +204,12 @@ function createHotItem(item) {
   link.href = href;
   link.target = '_blank';
   link.rel = 'noreferrer';
-  link.setAttribute('aria-label', `AI 热榜第 ${item.rank} 名：${item.title}`);
+  link.setAttribute('aria-label', `${HOT_SOURCES[source].label}第 ${item.rank} 名：${item.title}`);
   rank.className = 'hot-rank';
   rank.textContent = String(item.rank).padStart(2, '0');
   topic.className = 'hot-topic';
   title.textContent = item.title.slice(0, 120);
-  heat.textContent = formatHot(Number(item.hot));
+  heat.textContent = formatHot(Number(item.hot), source);
   topic.append(title, heat);
 
   if (typeof item.tag === 'string' && item.tag) {
@@ -183,12 +226,13 @@ function createHotItem(item) {
   return row;
 }
 
-function renderHotSearch(payload) {
-  const items = Array.isArray(payload?.data) ? payload.data.map(createHotItem).filter(Boolean).slice(0, 6) : [];
+function renderHotSearch(payload, source = activeHotSource) {
+  const config = HOT_SOURCES[source];
+  const items = Array.isArray(payload?.data) ? payload.data.map((item) => createHotItem(item, source)).filter(Boolean).slice(0, 6) : [];
   if (!items.length) {
     const message = document.createElement('li');
     message.className = 'hot-message';
-    message.textContent = '暂时无法连接 AI 热榜，请稍后刷新。';
+    message.textContent = `暂时无法连接${config.label}，请稍后刷新。`;
     hotList.replaceChildren(message);
   } else {
     hotList.replaceChildren(...items);
@@ -197,79 +241,166 @@ function renderHotSearch(payload) {
   const updated = payload?.updatedAt ? new Date(payload.updatedAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '';
   if (payload?.status === 'live') hotStatus.textContent = `实时 · 更新于 ${updated}`;
   else if (payload?.status === 'stale') hotStatus.textContent = `连接波动 · 显示 ${updated} 的最近数据`;
-  else hotStatus.textContent = 'AI 热榜暂时不可用';
+  else hotStatus.textContent = `${config.label}暂时不可用`;
+  hotSourceLabel.textContent = `${config.sourceLabel} · 自动更新间隔 2 分钟`;
 }
 
 async function loadHotSearch(force = false) {
-  if (hotLoading) return;
-  hotLoading = true;
+  const source = activeHotSource;
+  if (hotLoadingSources.has(source)) return;
+  hotLoadingSources.add(source);
   hotRefresh.disabled = true;
   if (force) hotRefresh.textContent = '刷新中';
-  hotStatus.textContent = '正在刷新热搜…';
+  hotStatus.textContent = `正在刷新${HOT_SOURCES[source].label}…`;
   try {
-    const response = await fetch(force ? '/api/hot-search?refresh=1' : '/api/hot-search');
+    const url = new URL('/api/hot-search', window.location.origin);
+    const params = url.searchParams;
+    params.set('source', source);
+    if (force) params.set('refresh', '1');
+    const response = await fetch(`${url.pathname}?${params}`);
     if (!response.ok) throw new Error('Hot search request failed');
-    renderHotSearch(await response.json());
+    const payload = await response.json();
+    hotPayloads.set(source, payload);
+    if (activeHotSource === source) renderHotSearch(payload, source);
   } catch {
-    renderHotSearch({ data: [], status: 'unavailable', updatedAt: null });
+    if (activeHotSource === source) renderHotSearch(hotPayloads.get(source) || { data: [], status: 'unavailable', updatedAt: null }, source);
   } finally {
-    hotLoading = false;
-    hotRefresh.disabled = false;
-    hotRefresh.textContent = '刷新';
+    hotLoadingSources.delete(source);
+    if (activeHotSource === source) {
+      hotRefresh.disabled = false;
+      hotRefresh.textContent = '刷新';
+    }
   }
 }
 
 hotRefresh.addEventListener('click', () => loadHotSearch(true));
+hotTabs.forEach((tab) => tab.addEventListener('click', () => {
+  const source = tab.dataset.hotSource;
+  if (!HOT_SOURCES[source] || source === activeHotSource) return;
+  activeHotSource = source;
+  hotTabs.forEach((item) => {
+    item.setAttribute('aria-selected', String(item === tab));
+    item.tabIndex = item === tab ? 0 : -1;
+  });
+  hotPanel.setAttribute('aria-labelledby', tab.id);
+  const cached = hotPayloads.get(source);
+  if (cached) renderHotSearch(cached, source);
+  else {
+    hotList.replaceChildren(Object.assign(document.createElement('li'), { className: 'hot-message', textContent: `正在获取${HOT_SOURCES[source].label}…` }));
+    hotSourceLabel.textContent = `${HOT_SOURCES[source].sourceLabel} · 自动更新间隔 2 分钟`;
+  }
+  loadHotSearch();
+}));
+document.querySelector('.trend-tabs').addEventListener('keydown', (event) => {
+  if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+  event.preventDefault();
+  const currentIndex = hotTabs.indexOf(document.activeElement);
+  let nextIndex = currentIndex;
+  if (event.key === 'Home') nextIndex = 0;
+  else if (event.key === 'End') nextIndex = hotTabs.length - 1;
+  else nextIndex = (currentIndex + (event.key === 'ArrowRight' ? 1 : -1) + hotTabs.length) % hotTabs.length;
+  hotTabs[nextIndex].focus();
+  hotTabs[nextIndex].click();
+});
 loadHotSearch();
 setInterval(() => { if (!document.hidden) loadHotSearch(); }, 120_000);
+musicRetry.addEventListener('click', loadMusicStatus);
+loadMusicStatus();
+setInterval(() => { if (!document.hidden) loadMusicStatus(); }, 30_000);
 
-function closeDialog() {
-  if (!dialog.open) return;
-  dialog.close();
-  lastTrigger?.focus();
-}
-
-dialog.querySelector('.dialog-close').addEventListener('click', closeDialog);
-dialog.addEventListener('click', (event) => { if (event.target === dialog) closeDialog(); });
-dialog.addEventListener('close', () => lastTrigger?.focus());
-document.addEventListener('keydown', (event) => { if (event.key === 'Escape') closeDialog(); });
-
-function stopAmbient() {
-  ambientNodes.forEach((node) => { try { node.stop?.(); node.disconnect?.(); } catch {} });
-  ambientNodes = [];
-  audioContext?.close();
-  audioContext = null;
-}
-
-function startAmbient() {
-  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-  if (!AudioContextClass) throw new Error('Web Audio is unavailable');
-  audioContext = new AudioContextClass();
-  const master = audioContext.createGain();
-  master.gain.value = 0.04;
-  master.connect(audioContext.destination);
-  [110, 164.81, 220].forEach((frequency, index) => {
-    const oscillator = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    oscillator.type = index === 1 ? 'sine' : 'triangle';
-    oscillator.frequency.value = frequency;
-    gain.gain.value = 0.3 / (index + 1);
-    oscillator.connect(gain).connect(master);
-    oscillator.start();
-    ambientNodes.push(oscillator, gain);
-  });
-  ambientNodes.push(master);
-}
-
-soundToggle.addEventListener('click', () => {
-  const shouldPlay = soundToggle.getAttribute('aria-pressed') !== 'true';
+function saveSoundPreference(enabled) {
   try {
-    if (shouldPlay) startAmbient(); else stopAmbient();
-    soundToggle.setAttribute('aria-pressed', String(shouldPlay));
-    soundToggle.querySelector('.sound-label').textContent = shouldPlay ? 'SOUND ON' : 'SOUND OFF';
+    localStorage.setItem(SOUND_PREFERENCE_KEY, enabled ? 'on' : 'off');
+  } catch {}
+}
+
+function soundIsEnabledByPreference() {
+  try {
+    return localStorage.getItem(SOUND_PREFERENCE_KEY) !== 'off';
   } catch {
-    stopAmbient();
-    soundToggle.setAttribute('aria-pressed', 'false');
-    soundToggle.querySelector('.sound-label').textContent = 'SOUND UNAVAILABLE';
+    return true;
   }
+}
+
+function setSoundState(state) {
+  const playing = state === 'on';
+  soundToggle.setAttribute('aria-pressed', String(playing));
+  soundLabel.textContent = state === 'unavailable' ? 'SOUND UNAVAILABLE' : playing ? 'SOUND ON' : 'SOUND OFF';
+  soundToggle.setAttribute('aria-label', playing ? '暂停背景音乐：开始懂了' : '播放背景音乐：开始懂了');
+}
+
+function fadeSoundtrackIn() {
+  cancelAnimationFrame(soundFadeFrame);
+  soundtrack.volume = 0;
+  const startedAt = performance.now();
+  const tick = (now) => {
+    const progress = Math.min((now - startedAt) / 1400, 1);
+    soundtrack.volume = SOUNDTRACK_VOLUME * progress;
+    if (progress < 1 && !soundtrack.paused) soundFadeFrame = requestAnimationFrame(tick);
+  };
+  soundFadeFrame = requestAnimationFrame(tick);
+}
+
+function disarmAutoplayFallback() {
+  if (!autoplayFallbackArmed) return;
+  autoplayFallbackArmed = false;
+  window.removeEventListener('pointerdown', handleFirstInteraction);
+  window.removeEventListener('keydown', handleFirstInteraction);
+}
+
+async function playSoundtrack({ remember = true } = {}) {
+  if (!soundtrack) {
+    setSoundState('unavailable');
+    return false;
+  }
+  try {
+    soundtrack.volume = 0;
+    await soundtrack.play();
+    disarmAutoplayFallback();
+    fadeSoundtrackIn();
+    setSoundState('on');
+    if (remember) saveSoundPreference(true);
+    return true;
+  } catch (error) {
+    setSoundState(error?.name === 'NotAllowedError' ? 'off' : 'unavailable');
+    return false;
+  }
+}
+
+function handleFirstInteraction(event) {
+  if (event.target.closest?.('.sound-toggle')) return;
+  disarmAutoplayFallback();
+  playSoundtrack({ remember: false });
+}
+
+function armAutoplayFallback() {
+  if (autoplayFallbackArmed) return;
+  autoplayFallbackArmed = true;
+  window.addEventListener('pointerdown', handleFirstInteraction);
+  window.addEventListener('keydown', handleFirstInteraction);
+}
+
+soundToggle.addEventListener('click', async () => {
+  if (soundtrack.paused) {
+    const started = await playSoundtrack();
+    if (!started) armAutoplayFallback();
+    return;
+  }
+  cancelAnimationFrame(soundFadeFrame);
+  soundtrack.pause();
+  saveSoundPreference(false);
+  setSoundState('off');
 });
+
+soundtrack.addEventListener('error', () => {
+  disarmAutoplayFallback();
+  setSoundState('unavailable');
+});
+
+if (soundIsEnabledByPreference()) {
+  playSoundtrack({ remember: false }).then((started) => {
+    if (!started && soundtrack.error === null) armAutoplayFallback();
+  });
+} else {
+  setSoundState('off');
+}
