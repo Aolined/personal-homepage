@@ -27,6 +27,7 @@ test('Render blueprint uses the health check and npm start', async () => {
 
   assert.match(render, /runtime:\s*node/);
   assert.match(render, /startCommand:\s*npm start/);
+  assert.match(render, /plan:\s*free/);
   assert.match(render, /healthCheckPath:\s*\/healthz/);
   assert.match(render, /key:\s*TRUST_PROXY/);
 });

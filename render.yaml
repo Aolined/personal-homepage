@@ -2,6 +2,7 @@ services:
   - type: web
     name: aolined-personal-scenes
     runtime: node
+    plan: free
     buildCommand: npm run check
     startCommand: npm start
     healthCheckPath: /healthz
