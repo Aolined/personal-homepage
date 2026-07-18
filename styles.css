@@ -182,6 +182,7 @@
 .project-entry--music{padding:0;overflow:hidden}
 .project-entry--format{padding:0;overflow:hidden}
 .project-entry__preview{width:100%;height:235px;object-fit:cover;object-position:center;filter:saturate(.72) brightness(.76)}
+.project-entry--format .project-entry__preview{filter:none}
 .project-entry--music .project-entry__body{padding:20px 22px 22px}
 .project-entry--format .project-entry__body{padding:20px 22px 22px}
 .project-entry--music h3{margin-top:12px;font-size:34px}
