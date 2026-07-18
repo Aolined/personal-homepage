@@ -41,3 +41,14 @@ test('Render blueprint deploys Echo Music as an isolated public guest service', 
   assert.match(render, /key:\s*PUBLIC_GUEST_MODE\s*\n\s*value:\s*"true"/);
   assert.match(render, /key:\s*ECHO_MUSIC_PUBLIC_URL\s*\n\s*value:\s*"https:\/\/aolined-echo-music\.onrender\.com"/);
 });
+
+test('Render blueprint deploys Format Workshop with cross-origin isolation headers', async () => {
+  const render = await read('render.yaml');
+
+  assert.match(render, /name:\s*aolined-format-workshop/);
+  assert.match(render, /runtime:\s*static/);
+  assert.match(render, /rootDir:\s*format-workshop/);
+  assert.match(render, /staticPublishPath:\s*\.\/dist/);
+  assert.match(render, /name:\s*Cross-Origin-Opener-Policy\s*\n\s*value:\s*same-origin/);
+  assert.match(render, /name:\s*Cross-Origin-Embedder-Policy\s*\n\s*value:\s*require-corp/);
+});

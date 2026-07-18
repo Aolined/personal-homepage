@@ -13,12 +13,15 @@ test('ships six ordered scenes including a single truthful works scene', async (
   assert.match(html, /Aolined Personal Scenes/);
 });
 
-test('works section contains the homepage and Echo Music without adding another scene', async () => {
+test('works section contains the homepage, Echo Music and Format Workshop without adding another scene', async () => {
   const html = await read('index.html');
 
-  assert.equal((html.match(/class="project-entry(?:\s|")/g) || []).length, 2);
+  assert.equal((html.match(/class="project-entry(?:\s|")/g) || []).length, 3);
   assert.match(html, /id="echo-work-title">Echo Music/);
   assert.match(html, /assets\/echo-music\/player-preview\.png/);
+  assert.match(html, /id="format-work-title">格式工坊/);
+  assert.match(html, /assets\/format-workshop\/workshop-preview\.png/);
+  assert.match(html, /https:\/\/aolined-format-workshop\.onrender\.com/);
   assert.doesNotMatch(html, /data-scene="music"/);
 });
 

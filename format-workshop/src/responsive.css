@@ -1,0 +1,384 @@
+@media (max-width: 900px) {
+  .pdf-tool-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .pdf-tool-tabs > button:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .intro,
+  footer {
+    width: min(100% - 32px, 1160px);
+  }
+
+  .site-header {
+    padding: 0 16px;
+  }
+
+  .header-meta {
+    gap: 12px;
+  }
+
+  .privacy-badge span {
+    display: none;
+  }
+
+  .install-button {
+    width: 34px;
+    padding: 0;
+  }
+
+  .install-button span {
+    display: none;
+  }
+
+  .intro {
+    display: block;
+    padding: 30px 0 24px;
+  }
+
+  .intro h1 {
+    font-size: 26px;
+    line-height: 1.22;
+  }
+
+  .intro > div:first-child > p:last-child {
+    font-size: 14px;
+  }
+
+  .workbench-band {
+    padding: 0 16px 44px;
+  }
+
+  .mode-tab {
+    min-height: 72px;
+    gap: 8px;
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .mode-tabs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .mode-glyph {
+    width: 32px;
+    height: 32px;
+  }
+
+  .mode-copy small {
+    font-size: 8px;
+  }
+
+  .tool-body {
+    padding: 18px;
+  }
+
+  .pdf-workbench {
+    padding: 20px 18px 24px;
+  }
+
+  .pdf-toolbox-heading {
+    display: block;
+  }
+
+  .pdf-toolbox-heading > p {
+    margin-top: 8px;
+    text-align: left;
+  }
+
+  .pdf-empty {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    min-height: 250px;
+    padding: 26px 18px;
+    text-align: center;
+  }
+
+  .pdf-empty .button {
+    width: 100%;
+  }
+
+  .pdf-file-stage {
+    grid-template-columns: 92px minmax(0, 1fr) 40px;
+    gap: 12px;
+  }
+
+  .pdf-source-preview {
+    width: 92px;
+    height: 108px;
+  }
+
+  .pdf-settings {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .pdf-setting {
+    align-items: stretch;
+  }
+
+  .pdf-setting > .control-label {
+    width: 100%;
+  }
+
+  .pdf-run {
+    width: 100%;
+  }
+
+  .empty-upload {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    min-height: 270px;
+    padding: 28px 20px;
+    text-align: center;
+  }
+
+  .empty-upload .button {
+    width: 100%;
+  }
+
+  .upload-actions {
+    display: grid;
+    width: 100%;
+  }
+
+  .file-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .file-stage {
+    grid-template-columns: minmax(0, 1fr) 40px;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .source-preview {
+    grid-column: 1 / 3;
+    width: 100%;
+    max-height: 220px;
+  }
+
+  .conversion-controls {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    padding-top: 18px;
+  }
+
+  .standard-preset-bar {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .standard-preset-bar .standard-preset-name {
+    grid-column: 1;
+  }
+
+  .standard-preset-bar > small {
+    grid-column: 1 / -1;
+    min-height: 24px;
+  }
+
+  .control-group,
+  .settings-panel,
+  .convert-button {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .settings-panel {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .rename-setting {
+    grid-column: 1;
+  }
+
+  .split-setting-row,
+  .audio-timing-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .format-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .format-option {
+    min-width: 0;
+  }
+
+  .convert-button {
+    width: 100%;
+  }
+
+  .result-actions {
+    display: grid;
+  }
+
+  .history-band {
+    padding: 32px 16px 40px;
+  }
+
+  .history-heading {
+    align-items: flex-start;
+  }
+
+  .history-item {
+    gap: 12px;
+  }
+
+  .local-note {
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+    align-items: start;
+    padding: 13px 18px;
+    line-height: 1.5;
+  }
+
+  .local-note > span:nth-child(2) {
+    white-space: nowrap;
+  }
+
+  .local-note-detail {
+    grid-column: 2;
+  }
+
+  .local-note-detail::before {
+    display: none;
+  }
+
+}
+
+@media (max-width: 380px) {
+  .mode-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0;
+  }
+
+  .mode-tab {
+    min-height: 64px;
+    gap: 8px;
+    padding: 8px 10px;
+  }
+
+  .mode-copy small {
+    display: none;
+  }
+
+  .mode-tab:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mode-tab:nth-child(odd) {
+    border-right: 1px solid var(--line);
+  }
+
+  .tool-body {
+    padding: 14px;
+  }
+
+  .pdf-workbench {
+    padding: 16px 14px 20px;
+  }
+
+  .pdf-tool-tabs > button {
+    grid-template-columns: 26px minmax(0, 1fr);
+    padding: 8px;
+  }
+
+  .pdf-file-stage {
+    grid-template-columns: minmax(0, 1fr) 40px;
+  }
+
+  .pdf-source-preview {
+    grid-column: 1 / 3;
+    width: 100%;
+    height: 150px;
+  }
+
+  .pdf-queue-item {
+    grid-template-columns: 24px minmax(0, 1fr);
+  }
+
+  .pdf-queue-actions {
+    grid-column: 2;
+    justify-content: flex-end;
+  }
+
+  .pdf-segmented {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .pdf-segmented button {
+    min-width: 0;
+  }
+
+  .result-heading {
+    align-items: flex-start;
+  }
+
+  .progress-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .progress-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .history-heading,
+  .history-item {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .history-heading {
+    display: grid;
+  }
+
+  .history-heading .button {
+    width: 100%;
+  }
+
+  .history-actions {
+    justify-content: flex-end;
+  }
+
+  .bitrate-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .setting-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .dimension-inputs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dimension-inputs > span {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
