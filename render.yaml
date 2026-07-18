@@ -17,7 +17,7 @@ services:
     name: aolined-format-workshop
     runtime: static
     rootDir: format-workshop
-    buildCommand: corepack enable && pnpm install --frozen-lockfile && pnpm build
+    buildCommand: corepack pnpm install --frozen-lockfile && corepack pnpm build
     staticPublishPath: ./dist
     headers:
       - path: /*
