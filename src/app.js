@@ -22,6 +22,10 @@ const remoteSceneMedia = [...document.querySelectorAll('[data-bg-src]')];
 const musicStatus = document.querySelector('.music-status');
 const musicRetry = document.querySelector('.music-retry');
 const musicLinks = [...document.querySelectorAll('[data-music-link]')];
+const worksConstellation = document.querySelector('.works-constellation');
+const workStars = [...document.querySelectorAll('[data-work-star]')];
+const workPanels = [...document.querySelectorAll('.project-entry[role="tabpanel"]')];
+const workStatus = document.querySelector('.work-selection-status');
 let activeHotSource = 'ai';
 const hotPayloads = new Map();
 const hotLoadingSources = new Set();
@@ -47,6 +51,38 @@ const HOT_SOURCES = {
     sourceLabel: 'SOURCE / WEIBO REALTIME · 实时公共话题',
   },
 };
+
+function setActiveWork(id, { focus = false } = {}) {
+  const nextIndex = workStars.findIndex((star) => star.dataset.workStar === id);
+  if (nextIndex === -1) return;
+
+  worksConstellation.dataset.activeWork = id;
+  workStars.forEach((star, index) => {
+    const isActive = index === nextIndex;
+    star.setAttribute('aria-selected', String(isActive));
+    star.tabIndex = isActive ? 0 : -1;
+  });
+  workPanels.forEach((panel) => {
+    panel.hidden = panel.id !== workStars[nextIndex].getAttribute('aria-controls');
+  });
+  workStatus.textContent = `已选择作品：${workStars[nextIndex].dataset.workTitle}，${nextIndex + 1} / ${workStars.length}`;
+  if (focus) workStars[nextIndex].focus();
+}
+
+workStars.forEach((star, index) => {
+  star.addEventListener('click', () => setActiveWork(star.dataset.workStar));
+  star.addEventListener('keydown', (event) => {
+    const keyOffsets = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+    let nextIndex = index;
+    if (event.key in keyOffsets) nextIndex = (index + keyOffsets[event.key] + workStars.length) % workStars.length;
+    else if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = workStars.length - 1;
+    else return;
+
+    event.preventDefault();
+    setActiveWork(workStars[nextIndex].dataset.workStar, { focus: true });
+  });
+});
 
 function getSafeMusicUrl(value) {
   try {

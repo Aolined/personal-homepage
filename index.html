@@ -68,48 +68,87 @@
         <div class="works-shell reveal">
           <div class="works-heading">
             <p class="scene-number">SCENE 03 / MY WORKS</p>
-            <h2 id="works-title">我的作品</h2>
-            <p>正在维护、可以真正打开的项目。</p>
+            <h2 id="works-title">作品星图</h2>
+            <p>四颗仍在生长的星。选择坐标，查看可以真正打开的项目。</p>
           </div>
-          <div class="works-catalog">
-            <article class="project-entry" aria-labelledby="homepage-work-title">
-              <div class="project-entry__index"><span>01</span><small>WEB EXPERIENCE</small></div>
-              <div class="project-entry__body">
-                <h3 id="homepage-work-title">Aolined Personal Scenes</h3>
-                <p>使用原生 HTML、CSS 与 JavaScript 构建的场景式个人主页。</p>
-                <div class="project-entry__meta"><span>2026</span><span>HTML / CSS / JAVASCRIPT</span></div>
-                <a class="project-entry__link" href="#home">正在浏览 <span aria-hidden="true">↑</span></a>
-              </div>
-            </article>
-            <article class="project-entry project-entry--music" aria-labelledby="echo-work-title">
-              <img class="project-entry__preview" src="assets/echo-music/player-preview.png" alt="Echo Music 播放器启动界面" decoding="async">
-              <div class="project-entry__body">
-                <div class="project-entry__index"><span>02</span><small>MUSIC APPLICATION</small><img class="project-entry__mark" src="assets/echo-music/echo-mark.svg" alt="" width="32" height="32"></div>
-                <h3 id="echo-work-title">Echo Music</h3>
-                <p>沉浸式音乐播放器，融合天气电台、歌词舞台、粒子视觉和 3D 歌单架。</p>
-                <p class="music-license">VERSION 1.1.1 · GPL-3.0 · WEB / WINDOWS</p>
-                <div class="music-runtime">
-                  <p class="music-status" role="status" aria-live="polite">正在检测 Echo Music…</p>
-                  <button class="music-retry" type="button" aria-label="重新检测 Echo Music" title="重新检测 Echo Music">↻</button>
+          <div class="works-constellation" data-active-work="homepage">
+            <svg class="constellation-lines" aria-hidden="true" viewBox="0 0 1000 420" preserveAspectRatio="none">
+              <path class="constellation-lines__map" d="M132 145 L518 76 L706 112 L846 232 L132 145" vector-effect="non-scaling-stroke"></path>
+              <path class="constellation-route constellation-route--homepage" d="M132 145 L620 166" vector-effect="non-scaling-stroke"></path>
+              <path class="constellation-route constellation-route--echo" d="M518 76 L620 166" vector-effect="non-scaling-stroke"></path>
+              <path class="constellation-route constellation-route--format" d="M846 232 L620 166" vector-effect="non-scaling-stroke"></path>
+              <path class="constellation-route constellation-route--indie" d="M706 112 L620 166" vector-effect="non-scaling-stroke"></path>
+              <circle class="constellation-lines__hub" cx="620" cy="166" r="3"></circle>
+              <circle cx="258" cy="68" r="2"></circle>
+            </svg>
+            <div class="work-orbit" role="tablist" aria-label="作品星图">
+              <button class="work-star work-star--homepage" id="work-star-homepage" type="button" role="tab" aria-selected="true" aria-controls="work-panel-homepage" data-work-star="homepage" data-work-title="Personal Scenes">
+                <span class="work-star__point" aria-hidden="true"></span><span class="work-star__label"><small>01 / WEB EXPERIENCE</small><strong>Personal Scenes</strong></span>
+              </button>
+              <button class="work-star work-star--echo" id="work-star-echo" type="button" role="tab" aria-selected="false" aria-controls="work-panel-echo" data-work-star="echo" data-work-title="Echo Music" tabindex="-1">
+                <span class="work-star__point" aria-hidden="true"></span><span class="work-star__label"><small>02 / MUSIC APPLICATION</small><strong>Echo Music</strong></span>
+              </button>
+              <button class="work-star work-star--format" id="work-star-format" type="button" role="tab" aria-selected="false" aria-controls="work-panel-format" data-work-star="format" data-work-title="格式工坊" tabindex="-1">
+                <span class="work-star__point" aria-hidden="true"></span><span class="work-star__label"><small>03 / LOCAL TOOL</small><strong>格式工坊</strong></span>
+              </button>
+              <button class="work-star work-star--indie" id="work-star-indie" type="button" role="tab" aria-selected="false" aria-controls="work-panel-indie" data-work-star="indie" data-work-title="作品星图" tabindex="-1">
+                <span class="work-star__point" aria-hidden="true"></span><span class="work-star__label"><small>04 / PROJECT DIRECTORY</small><strong>作品星图</strong></span>
+              </button>
+            </div>
+            <p class="work-selection-status" aria-live="polite" aria-atomic="true">已选择作品：Personal Scenes，1 / 4</p>
+            <div class="work-panels">
+              <article class="project-entry" id="work-panel-homepage" role="tabpanel" aria-labelledby="work-star-homepage" tabindex="0">
+                <div class="project-entry__visual project-entry__visual--monogram" aria-hidden="true"><span>A</span><small>03 · 01</small></div>
+                <div class="project-entry__body">
+                  <div class="project-entry__index"><span>01</span><small>WEB EXPERIENCE</small></div>
+                  <h3 id="homepage-work-title">Aolined Personal Scenes</h3>
+                  <p>使用原生 HTML、CSS 与 JavaScript 构建的场景式个人主页。</p>
+                  <div class="project-entry__meta"><span>2026</span><span>HTML / CSS / JAVASCRIPT</span></div>
+                  <a class="project-entry__link" href="#home">正在浏览 <span aria-hidden="true">↑</span></a>
                 </div>
-                <div class="music-actions" aria-label="Echo Music 入口">
-                  <a data-music-link="landing" target="_blank" rel="noreferrer" aria-disabled="true">查看介绍 <span aria-hidden="true">↗</span></a>
-                  <a data-music-link="app" target="_blank" rel="noreferrer" aria-disabled="true">打开播放器 <span aria-hidden="true">↗</span></a>
-                  <a data-music-link="download" aria-disabled="true">下载 Windows <span aria-hidden="true">↓</span></a>
+              </article>
+              <article class="project-entry project-entry--music" id="work-panel-echo" role="tabpanel" aria-labelledby="work-star-echo" tabindex="0" hidden>
+                <img class="project-entry__preview" src="assets/echo-music/player-preview.png" alt="Echo Music 播放器启动界面" decoding="async">
+                <div class="project-entry__body">
+                  <div class="project-entry__index"><span>02</span><small>MUSIC APPLICATION</small><img class="project-entry__mark" src="assets/echo-music/echo-mark.svg" alt="" width="32" height="32"></div>
+                  <h3 id="echo-work-title">Echo Music</h3>
+                  <p>沉浸式音乐播放器，融合天气电台、歌词舞台、粒子视觉和 3D 歌单架。</p>
+                  <p class="music-license">VERSION 1.1.1 · GPL-3.0 · WEB / WINDOWS</p>
+                  <div class="music-runtime">
+                    <p class="music-status" role="status" aria-live="polite">正在检测 Echo Music…</p>
+                    <button class="music-retry" type="button" aria-label="重新检测 Echo Music" title="重新检测 Echo Music">↻</button>
+                  </div>
+                  <div class="music-actions" aria-label="Echo Music 入口">
+                    <a data-music-link="landing" target="_blank" rel="noreferrer" aria-disabled="true">查看介绍 <span aria-hidden="true">↗</span></a>
+                    <a data-music-link="app" target="_blank" rel="noreferrer" aria-disabled="true">打开播放器 <span aria-hidden="true">↗</span></a>
+                    <a data-music-link="download" aria-disabled="true">下载 Windows <span aria-hidden="true">↓</span></a>
+                  </div>
                 </div>
-              </div>
-            </article>
-            <article class="project-entry project-entry--format" aria-labelledby="format-work-title">
-              <img class="project-entry__preview" src="assets/format-workshop/workshop-preview.png" alt="格式工坊浏览器转换工作台" decoding="async">
-              <div class="project-entry__body">
-                <div class="project-entry__index"><span>03</span><small>LOCAL CONVERSION TOOL</small></div>
-                <h3 id="format-work-title">格式工坊</h3>
-                <p>在浏览器本地完成图片、音频、视频与 PDF 转换和编辑，文件无需上传。</p>
-                <p class="music-license">VERSION 0.2.0 · PWA · LOCAL-FIRST</p>
-                <div class="project-entry__meta"><span>2026</span><span>TYPESCRIPT / WEBASSEMBLY / VITE</span></div>
-                <a class="project-entry__link" href="https://aolined-format-workshop.onrender.com/" target="_blank" rel="noreferrer">打开格式工坊 <span aria-hidden="true">↗</span></a>
-              </div>
-            </article>
+              </article>
+              <article class="project-entry project-entry--format" id="work-panel-format" role="tabpanel" aria-labelledby="work-star-format" tabindex="0" hidden>
+                <img class="project-entry__preview" src="assets/format-workshop/workshop-preview.png" alt="格式工坊浏览器转换工作台" decoding="async">
+                <div class="project-entry__body">
+                  <div class="project-entry__index"><span>03</span><small>LOCAL CONVERSION TOOL</small></div>
+                  <h3 id="format-work-title">格式工坊</h3>
+                  <p>在浏览器本地完成图片、音频、视频与 PDF 转换和编辑，文件无需上传。</p>
+                  <p class="music-license">VERSION 0.2.0 · PWA · LOCAL-FIRST</p>
+                  <div class="project-entry__meta"><span>2026</span><span>TYPESCRIPT / WEBASSEMBLY / VITE</span></div>
+                  <a class="project-entry__link" href="https://aolined-format-workshop.onrender.com/" target="_blank" rel="noreferrer">打开格式工坊 <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+              <article class="project-entry project-entry--indie" id="work-panel-indie" role="tabpanel" aria-labelledby="work-star-indie" tabindex="0" hidden>
+                <img class="project-entry__preview" src="assets/indie-explorer/indie-preview.png" alt="作品星图 Maker Constellation 首页，显示中国独立开发项目目录与筛选功能" decoding="async">
+                <div class="project-entry__body">
+                  <div class="project-entry__index"><span>04</span><small>PROJECT DIRECTORY</small></div>
+                  <h3 id="indie-work-title">作品星图</h3>
+                  <p class="project-entry__subtitle">Maker Constellation · 中国独立开发者作品发现目录</p>
+                  <p>聚合多个 GitHub 来源中的中文独立开发项目，展示产品、开发者、城市、状态、简介和项目地址；支持搜索、状态与城市筛选、排序、收藏、随机发现、详情和原项目访问。</p>
+                  <p class="project-entry__scope">保留收录来源并定时抓取自动更新；不托管项目代码，也不替开发者发布产品。</p>
+                  <div class="project-entry__meta"><span>LIVE DIRECTORY</span><span>GITHUB SOURCES / AUTO UPDATE</span></div>
+                  <a class="project-entry__link" href="https://aolined.github.io/indie-explorer/" target="_blank" rel="noreferrer">打开作品星图 <span aria-hidden="true">↗</span></a>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
       </section>

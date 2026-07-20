@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readFile, stat } from 'node:fs/promises';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
@@ -13,16 +13,52 @@ test('ships six ordered scenes including a single truthful works scene', async (
   assert.match(html, /Aolined Personal Scenes/);
 });
 
-test('works section contains the homepage, Echo Music and Format Workshop without adding another scene', async () => {
+test('works section contains all four real projects without adding another scene', async () => {
   const html = await read('index.html');
 
-  assert.equal((html.match(/class="project-entry(?:\s|")/g) || []).length, 3);
+  assert.equal((html.match(/class="project-entry(?:\s|")/g) || []).length, 4);
+  assert.match(html, /Aolined Personal Scenes/);
   assert.match(html, /id="echo-work-title">Echo Music/);
   assert.match(html, /assets\/echo-music\/player-preview\.png/);
   assert.match(html, /id="format-work-title">格式工坊/);
   assert.match(html, /assets\/format-workshop\/workshop-preview\.png/);
   assert.match(html, /https:\/\/aolined-format-workshop\.onrender\.com/);
+  assert.match(html, /id="indie-work-title">作品星图/);
+  assert.match(html, /Maker Constellation/);
+  assert.match(html, /中国独立开发者作品发现目录/);
+  assert.match(html, /状态与城市筛选/);
+  assert.match(html, /原项目访问/);
+  assert.match(html, /不托管项目代码/);
+  assert.match(html, /https:\/\/aolined\.github\.io\/indie-explorer\//);
+  assert.match(html, /assets\/indie-explorer\/indie-preview\.png/);
   assert.doesNotMatch(html, /data-scene="music"/);
+});
+
+test('works section exposes an accessible four-project constellation', async () => {
+  const [html, app, css] = await Promise.all([read('index.html'), read('src/app.js'), read('styles.css')]);
+
+  assert.match(html, /class="works-constellation"/);
+  assert.match(html, /class="constellation-lines"[^>]+aria-hidden="true"/);
+  assert.match(html, /role="tablist"[^>]+aria-label="作品星图"/);
+  assert.equal((html.match(/class="work-star[^"]*"[^>]+role="tab"/g) || []).length, 4);
+  assert.equal((html.match(/class="project-entry[^"]*"[^>]+role="tabpanel"/g) || []).length, 4);
+  assert.match(html, /class="work-selection-status"[^>]+aria-live="polite"/);
+  assert.match(app, /function setActiveWork/);
+  assert.match(app, /ArrowRight/);
+  assert.match(app, /ArrowLeft/);
+  assert.match(app, /workStatus\.textContent/);
+  assert.match(css, /\.work-star\[aria-selected="true"\]/);
+  assert.equal((html.match(/class="constellation-route constellation-route--/g) || []).length, 4);
+  assert.match(css, /data-active-work="homepage"/);
+  assert.match(css, /data-active-work="indie"/);
+  assert.match(css, /grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)[\s\S]*?\.constellation-route/);
+});
+
+test('Indie Explorer preview is a real local image asset', async () => {
+  const preview = await stat(new URL('../assets/indie-explorer/indie-preview.png', import.meta.url));
+  assert.ok(preview.isFile());
+  assert.ok(preview.size > 50_000);
 });
 
 test('mobile navigation exposes previous, current, next and the complete directory', async () => {
