@@ -42,7 +42,8 @@ test('works section exposes an accessible four-project orbital index', async () 
   assert.match(html, /class="orbital-track"/);
   assert.match(html, /src="assets\/personal-scenes-preview\.png"/);
   assert.doesNotMatch(html, /project-entry__visual--monogram/);
-  assert.match(html, /role="tablist"[^>]+aria-label="作品星图"/);
+  assert.match(html, /id="works-title">项目轨道/);
+  assert.match(html, /role="tablist"[^>]+aria-label="项目轨道"/);
   assert.equal((html.match(/class="work-star[^"]*"[^>]+role="tab"/g) || []).length, 4);
   assert.equal((html.match(/class="project-entry[^"]*"[^>]+role="tabpanel"/g) || []).length, 4);
   assert.match(html, /class="work-selection-status"[^>]+aria-live="polite"/);
