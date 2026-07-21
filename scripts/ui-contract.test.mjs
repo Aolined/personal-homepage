@@ -34,11 +34,12 @@ test('works section contains all four real projects without adding another scene
   assert.doesNotMatch(html, /data-scene="music"/);
 });
 
-test('works section exposes an accessible four-project constellation', async () => {
+test('works section exposes an accessible four-project orbital index', async () => {
   const [html, app, css] = await Promise.all([read('index.html'), read('src/app.js'), read('styles.css')]);
 
   assert.match(html, /class="works-constellation"/);
   assert.match(html, /class="constellation-lines"[^>]+aria-hidden="true"/);
+  assert.match(html, /class="orbital-track"/);
   assert.match(html, /role="tablist"[^>]+aria-label="作品星图"/);
   assert.equal((html.match(/class="work-star[^"]*"[^>]+role="tab"/g) || []).length, 4);
   assert.equal((html.match(/class="project-entry[^"]*"[^>]+role="tabpanel"/g) || []).length, 4);
@@ -48,11 +49,16 @@ test('works section exposes an accessible four-project constellation', async () 
   assert.match(app, /ArrowLeft/);
   assert.match(app, /workStatus\.textContent/);
   assert.match(css, /\.work-star\[aria-selected="true"\]/);
-  assert.equal((html.match(/class="constellation-route constellation-route--/g) || []).length, 4);
+  assert.equal((html.match(/class="orbital-track"/g) || []).length, 1);
+  assert.doesNotMatch(html, /constellation-route--/);
   assert.match(css, /data-active-work="homepage"/);
   assert.match(css, /data-active-work="indie"/);
-  assert.match(css, /grid-template-columns:repeat\(4,minmax\(0,1fr\)\)/);
-  assert.match(css, /@media\(prefers-reduced-motion:reduce\)[\s\S]*?\.constellation-route/);
+  assert.match(css, /--work-color:/);
+  assert.match(css, /\.work-star:not\(\[aria-selected="true"\]\) \.work-star__point/);
+  assert.match(css, /grid-template-columns:repeat\(2,minmax\(0,1fr\)\)/);
+  assert.doesNotMatch(css, /background-size:64px 64px/);
+  assert.doesNotMatch(css, /\.works-constellation::before,.works-constellation::after/);
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)[\s\S]*?\.project-entry/);
 });
 
 test('Indie Explorer preview is a real local image asset', async () => {
