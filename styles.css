@@ -204,10 +204,8 @@
 .project-entry:not([hidden]){animation:projectEntryIn .32s cubic-bezier(.16,1,.3,1)}
 @keyframes projectEntryIn{from{opacity:0;transform:translateY(10px)}}
 .project-entry__visual,.project-entry__preview{width:100%;height:100%;min-height:0;border-right:1px solid rgba(255,255,255,.13);object-fit:cover}
-.project-entry__visual--monogram{position:relative;display:grid;place-items:center;background:#111714;overflow:hidden}
-.project-entry__visual--monogram span{font:400 clamp(72px,7vw,112px)/1 Georgia,serif;color:var(--work-color)}
-.project-entry__visual--monogram small{position:absolute;right:16px;bottom:14px;color:#7f8782;font-size:8px;letter-spacing:.16em}
 .project-entry__preview{object-position:center;filter:saturate(.7) brightness(.74)}
+.project-entry:not([class*="project-entry--"]) .project-entry__preview{object-position:left 48%;filter:saturate(.82) brightness(.82) contrast(1.04)}
 .project-entry--format .project-entry__preview{filter:saturate(.78) brightness(.88)}
 .project-entry--indie .project-entry__preview{object-position:18% center;filter:saturate(.68) brightness(.76)}
 .project-entry__body{display:flex;min-width:0;height:100%;flex-direction:column;padding:22px 0 0 32px}
