@@ -248,3 +248,40 @@ html{scroll-snap-type:y proximity}
 .story-panel{backdrop-filter:none;background:rgba(8,10,9,.78)}
 .hot-board{backdrop-filter:none;background:rgba(8,10,9,.7)}
 @media(max-width:720px){.mobile-scene-nav{backdrop-filter:none;background:rgba(8,10,9,.96)}}
+
+/* Lightweight editorial scenes */
+html{scroll-snap-type:none}
+.scene{scroll-snap-align:none}
+.site-header{background:rgba(7,10,9,.82)}
+.site-header[data-tone="light"]{background:rgba(216,214,207,.92)}
+
+.scene--about{background:#d8d6cf;color:#151715}
+.scene--about::after{content:"";position:absolute;inset:84px 4vw 6vh;border-top:1px solid rgba(21,23,21,.2);border-bottom:1px solid rgba(21,23,21,.2);pointer-events:none}
+.scene--about .story-panel{left:clamp(40px,8vw,140px);bottom:10vh;width:min(940px,78vw);padding:0 0 30px;border-top:0;background:transparent;color:#151715}
+.scene--about .scene-number{color:#3b523f}
+.scene--about .story-panel h2{max-width:760px;margin:22px 0 48px;font-size:clamp(46px,5.8vw,82px)}
+.scene--about .story-columns{grid-template-columns:minmax(0,1.35fr) minmax(240px,.65fr);gap:clamp(48px,8vw,120px)}
+.scene--about .story-columns>p{color:#30332f;font-size:15px;line-height:1.9}
+.scene--about .story-columns dl div,.scene--about .now-line{border-color:rgba(21,23,21,.24)}
+.scene--about .story-columns dt,.scene--about .now-line span{color:#626760}
+
+.scene--hot{background:#142129}
+.scene--hot::before{content:"04";position:absolute;right:5vw;top:12vh;color:rgba(255,255,255,.045);font:400 180px/1 Georgia,serif;pointer-events:none}
+.scene--hot .hot-board{background:transparent}
+.scene--hot .hot-heading>p:last-child{color:#aebac0}
+.scene--hot .hot-list a:hover{background:rgba(255,255,255,.045)}
+
+.scene--contact{background:#111714}
+.scene--contact::after{border-color:rgba(255,255,255,.16)}
+.scene--contact .contact-links a:hover{background:rgba(255,255,255,.045)}
+
+@media(max-width:720px){
+  .site-header[data-tone="light"]{background:rgba(216,214,207,.94)}
+  .scene--about{min-height:max(100svh,820px)}
+  .scene--about::after{inset:68px 14px 86px}
+  .scene--about .story-panel{left:24px;right:24px;bottom:120px;width:auto;padding:0}
+  .scene--about .story-panel h2{margin:18px 0 30px;font-size:42px}
+  .scene--about .story-columns{grid-template-columns:1fr;gap:24px}
+  .scene--about .story-columns>p{font-size:12px;line-height:1.8}
+  .scene--hot::before{right:18px;top:80px;font-size:96px}
+}
