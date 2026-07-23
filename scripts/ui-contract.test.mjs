@@ -85,7 +85,11 @@ test('only the home hero keeps remote imagery and CSS snapping stays disabled', 
 
   assert.equal((html.match(/data-bg-src="https:\/\/images\.unsplash\.com/g) || []).length, 1);
   assert.match(html, /class="scene scene--home"[\s\S]*?data-bg-src="https:\/\/images\.unsplash\.com[^>]+data-priority="high"/);
-  assert.doesNotMatch(html, /class="scene scene--(?:about|hot|contact)"[\s\S]*?data-bg-src=/);
+  for (const id of ['about', 'hot']) {
+    const sectionStart = html.indexOf(`class="scene scene--${id}"`);
+    const sectionEnd = html.indexOf('</section>', sectionStart);
+    assert.doesNotMatch(html.slice(sectionStart, sectionEnd), /data-bg-src=/);
+  }
   assert.match(app, /image-failed/);
   assert.match(app, /addEventListener\('error'/);
   assert.match(app, /function getSceneImageUrl/);
@@ -108,14 +112,21 @@ test('desktop wheel gestures advance exactly one scene through controlled paging
   assert.match(app, /addEventListener\('wheel', handleSceneWheel, \{ passive: false \}\)/);
 });
 
-test('contact scene closes with a branded split title composition', async () => {
-  const [html, css] = await Promise.all([read('index.html'), read('styles.css')]);
+test('contact scene closes with a local cinematic landscape', async () => {
+  const [html, css, image] = await Promise.all([
+    read('index.html'),
+    read('styles.css'),
+    stat(new URL('../assets/contact-forest.jpg', import.meta.url)),
+  ]);
 
-  assert.match(html, /class="scene scene--contact"[^>]+data-contact-layout="closing-title"/);
-  assert.match(css, /\.scene--contact\{background:var\(--accent\);color:#0c100e\}/);
-  assert.match(css, /\.scene--contact::before\{[^}]*width:38%;background:#101714/);
-  assert.match(css, /\.contact-copy h2\{[^}]*font:700 clamp\(48px,5vw,78px\)/);
-  assert.match(css, /@media\(max-width:720px\)\{[\s\S]*?\.scene--contact::before\{[^}]*height:42%/);
+  assert.match(html, /class="scene scene--contact"[^>]+data-contact-layout="cinematic-landscape"/);
+  assert.match(html, /class="scene-media"[^>]+data-bg-src="assets\/contact-forest\.jpg"/);
+  assert.match(html, /class="scene-shade"/);
+  assert.match(css, /\.scene--contact \.scene-shade\{background:rgba\(4,9,7,\.58\)\}/);
+  assert.match(css, /\.scene--contact \.contact-copy h2\{[^}]*font:400 clamp\(42px,4\.4vw,68px\)/);
+  assert.doesNotMatch(css, /\/\* Closing title card \*\//);
+  assert.ok(image.isFile());
+  assert.ok(image.size > 500_000);
 });
 
 test('light scenes opt into contrasting fixed header controls and hot list shows six rows', async () => {
