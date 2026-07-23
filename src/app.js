@@ -164,6 +164,61 @@ const sceneObserver = new IntersectionObserver((entries) => {
 
 scenes.forEach((scene) => sceneObserver.observe(scene));
 
+const finePointer = matchMedia('(pointer: fine)');
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+let wheelDelta = 0;
+let wheelResetTimer = 0;
+let wheelUnlockTimer = 0;
+let wheelPagingStarted = 0;
+let wheelPaging = false;
+
+function getClosestSceneIndex() {
+  return scenes.reduce((closestIndex, scene, index) => {
+    const closestDistance = Math.abs(scenes[closestIndex].getBoundingClientRect().top);
+    const sceneDistance = Math.abs(scene.getBoundingClientRect().top);
+    return sceneDistance < closestDistance ? index : closestIndex;
+  }, 0);
+}
+
+function queueWheelUnlock() {
+  clearTimeout(wheelUnlockTimer);
+  const minimumTransition = Math.max(0, 620 - (performance.now() - wheelPagingStarted));
+  wheelUnlockTimer = window.setTimeout(() => {
+    wheelPaging = false;
+  }, minimumTransition + 180);
+}
+
+function handleSceneWheel(event) {
+  if (!finePointer.matches || event.ctrlKey || directory.open || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+
+  event.preventDefault();
+  if (wheelPaging) {
+    queueWheelUnlock();
+    return;
+  }
+
+  const deltaScale = event.deltaMode === WheelEvent.DOM_DELTA_LINE
+    ? 16
+    : event.deltaMode === WheelEvent.DOM_DELTA_PAGE ? window.innerHeight : 1;
+  wheelDelta += event.deltaY * deltaScale;
+  clearTimeout(wheelResetTimer);
+  wheelResetTimer = window.setTimeout(() => { wheelDelta = 0; }, 180);
+  if (Math.abs(wheelDelta) < 36) return;
+
+  const currentIndex = getClosestSceneIndex();
+  const nextIndex = Math.min(scenes.length - 1, Math.max(0, currentIndex + Math.sign(wheelDelta)));
+  wheelDelta = 0;
+  if (nextIndex === currentIndex) return;
+
+  wheelPaging = true;
+  wheelPagingStarted = performance.now();
+  queueWheelUnlock();
+  const behavior = reducedMotion.matches ? 'auto' : 'smooth';
+  scenes[nextIndex].scrollIntoView({ behavior, block: 'start' });
+}
+
+window.addEventListener('wheel', handleSceneWheel, { passive: false });
+
 function getSceneImageUrl(value) {
   try {
     const url = new URL(value);

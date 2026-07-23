@@ -80,7 +80,7 @@ test('mobile navigation exposes previous, current, next and the complete directo
   assert.equal((html.match(/class="directory-link"/g) || []).length, 6);
 });
 
-test('only the home hero keeps remote imagery and vertical scrolling stays free', async () => {
+test('only the home hero keeps remote imagery and CSS snapping stays disabled', async () => {
   const [html, app, css] = await Promise.all([read('index.html'), read('src/app.js'), read('styles.css')]);
 
   assert.equal((html.match(/data-bg-src="https:\/\/images\.unsplash\.com/g) || []).length, 1);
@@ -95,6 +95,17 @@ test('only the home hero keeps remote imagery and vertical scrolling stays free'
   assert.match(css, /\.scene:not\(\.scene--home\)\{content-visibility:auto;contain-intrinsic-size:auto 100svh\}/);
   assert.match(css, /\.site-header\{backdrop-filter:none/);
   assert.match(css, /\.scene-media\{transform:none;transition:none\}/);
+});
+
+test('desktop wheel gestures advance exactly one scene through controlled paging', async () => {
+  const app = await read('src/app.js');
+
+  assert.match(app, /function handleSceneWheel/);
+  assert.match(app, /matchMedia\('\(pointer: fine\)'\)/);
+  assert.match(app, /prefers-reduced-motion/);
+  assert.match(app, /event\.preventDefault\(\)/);
+  assert.match(app, /scrollIntoView\(\{ behavior, block: 'start' \}\)/);
+  assert.match(app, /addEventListener\('wheel', handleSceneWheel, \{ passive: false \}\)/);
 });
 
 test('light scenes opt into contrasting fixed header controls and hot list shows six rows', async () => {
