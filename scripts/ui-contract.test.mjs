@@ -108,6 +108,16 @@ test('desktop wheel gestures advance exactly one scene through controlled paging
   assert.match(app, /addEventListener\('wheel', handleSceneWheel, \{ passive: false \}\)/);
 });
 
+test('contact scene closes with a branded split title composition', async () => {
+  const [html, css] = await Promise.all([read('index.html'), read('styles.css')]);
+
+  assert.match(html, /class="scene scene--contact"[^>]+data-contact-layout="closing-title"/);
+  assert.match(css, /\.scene--contact\{background:var\(--accent\);color:#0c100e\}/);
+  assert.match(css, /\.scene--contact::before\{[^}]*width:38%;background:#101714/);
+  assert.match(css, /\.contact-copy h2\{[^}]*font:700 clamp\(48px,5vw,78px\)/);
+  assert.match(css, /@media\(max-width:720px\)\{[\s\S]*?\.scene--contact::before\{[^}]*height:42%/);
+});
+
 test('light scenes opt into contrasting fixed header controls and hot list shows six rows', async () => {
   const [html, app, css] = await Promise.all([read('index.html'), read('src/app.js'), read('styles.css')]);
 

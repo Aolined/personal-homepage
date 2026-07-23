@@ -285,3 +285,42 @@ html{scroll-snap-type:none}
   .scene--about .story-columns>p{font-size:12px;line-height:1.8}
   .scene--hot::before{right:18px;top:80px;font-size:96px}
 }
+
+/* Closing title card */
+.scene--contact{background:var(--accent);color:#0c100e}
+.scene--contact::before{content:"";position:absolute;top:82px;right:0;bottom:0;width:38%;background:#101714;pointer-events:none}
+.scene--contact::after{content:none}
+.scene--contact .contact-copy{z-index:1;top:18vh;right:clamp(40px,6vw,112px);bottom:auto;left:clamp(40px,7vw,132px);width:auto;color:#0c100e}
+.scene--contact .contact-copy .scene-number{color:#0c100e}
+.scene--contact .contact-copy .scene-number::before{background:#0c100e}
+.scene--contact .contact-stage{grid-template-columns:minmax(0,1.55fr) minmax(280px,.75fr);gap:clamp(56px,7vw,140px);align-items:center;margin-top:clamp(72px,11vh,112px)}
+.scene--contact .contact-copy h2{max-width:720px;margin:0;color:#0c100e;font:700 clamp(48px,5vw,78px)/1.04 Arial,"Microsoft YaHei",sans-serif;text-wrap:balance}
+.scene--contact .contact-copy h2 span{display:block;white-space:nowrap}
+.scene--contact .contact-links{align-self:center}
+.scene--contact .contact-links a{min-height:132px;padding:24px 0;border-color:rgba(255,255,255,.48);color:#f3f1ea;transition:background .18s ease-out}
+.scene--contact .contact-links a:hover{padding:24px 0;background:rgba(255,255,255,.06)}
+.scene--contact .contact-links small{color:var(--accent)}
+.scene--contact .contact-links strong{margin-top:12px;font:400 22px/1.2 Georgia,serif}
+.scene--contact .contact-links i{transition:transform .18s ease-out}
+.scene--contact .contact-links a:hover i{transform:translate(4px,-4px)}
+.scene--contact footer{z-index:1;color:#0c100e;border-color:rgba(12,16,14,.28)}
+.scene--contact footer span:last-child{color:#f3f1ea}
+
+@media(max-width:900px) and (min-width:721px){
+  .scene--contact::before{width:40%}
+  .scene--contact .contact-copy{top:19vh;right:5vw;left:5vw}
+  .scene--contact .contact-stage{grid-template-columns:minmax(0,1.35fr) minmax(250px,.85fr);gap:7vw}
+  .scene--contact .contact-copy h2{font-size:56px}
+}
+
+@media(max-width:720px){
+  .scene--contact::before{top:auto;right:0;bottom:0;left:0;width:auto;height:42%;background:#101714}
+  .scene--contact .contact-copy{top:16vh;right:24px;bottom:auto;left:24px;width:auto}
+  .scene--contact .contact-stage{display:block;margin-top:28px}
+  .scene--contact .contact-copy h2{font-size:38px;line-height:1.08}
+  .scene--contact .contact-links{margin-top:clamp(150px,25vh,210px)}
+  .scene--contact .contact-links a{min-height:92px;padding:16px 0}
+  .scene--contact .contact-links a:hover{padding:16px 0}
+  .scene--contact .contact-links strong{font-size:18px}
+  .scene--contact footer{right:14px;bottom:92px;left:14px;color:#f3f1ea;border-color:rgba(255,255,255,.22)}
+}
