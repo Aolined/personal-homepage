@@ -164,14 +164,34 @@ const sceneObserver = new IntersectionObserver((entries) => {
 
 scenes.forEach((scene) => sceneObserver.observe(scene));
 
+function getSceneImageUrl(value) {
+  try {
+    const url = new URL(value);
+    if (url.hostname !== 'images.unsplash.com') return value;
+    const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+    const targetWidth = Math.min(1920, Math.max(960, Math.ceil((window.innerWidth * pixelRatio) / 320) * 320));
+    url.searchParams.set('w', String(targetWidth));
+    url.searchParams.set('q', '82');
+    return url.href;
+  } catch {
+    return value;
+  }
+}
+
 function loadSceneBackground(media) {
   if (media.dataset.imageState) return;
   media.dataset.imageState = 'loading';
   media.setAttribute('aria-busy', 'true');
   const image = new Image();
+  const imageUrl = getSceneImageUrl(media.dataset.bgSrc);
   image.decoding = 'async';
-  image.addEventListener('load', () => {
-    media.style.backgroundImage = `url('${media.dataset.bgSrc}')`;
+  image.addEventListener('load', async () => {
+    try {
+      await image.decode();
+    } catch {
+      // A loaded image can still be displayed when explicit decoding is unavailable.
+    }
+    media.style.backgroundImage = `url('${imageUrl}')`;
     media.dataset.imageState = 'loaded';
     media.removeAttribute('aria-busy');
   }, { once: true });
@@ -180,7 +200,7 @@ function loadSceneBackground(media) {
     media.classList.add('image-failed');
     media.removeAttribute('aria-busy');
   }, { once: true });
-  image.src = media.dataset.bgSrc;
+  image.src = imageUrl;
 }
 
 const backgroundObserver = new IntersectionObserver((entries, observer) => {
@@ -189,7 +209,7 @@ const backgroundObserver = new IntersectionObserver((entries, observer) => {
     loadSceneBackground(entry.target);
     observer.unobserve(entry.target);
   });
-}, { rootMargin: '60% 0px' });
+}, { rootMargin: '100% 0px' });
 
 remoteSceneMedia.forEach((media) => {
   if (media.dataset.priority === 'high') loadSceneBackground(media);

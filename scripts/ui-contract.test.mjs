@@ -81,11 +81,17 @@ test('mobile navigation exposes previous, current, next and the complete directo
 });
 
 test('remote scene imagery declares lazy loading and application fallbacks', async () => {
-  const [html, app] = await Promise.all([read('index.html'), read('src/app.js')]);
+  const [html, app, css] = await Promise.all([read('index.html'), read('src/app.js'), read('styles.css')]);
 
   assert.ok((html.match(/data-bg-src="https:\/\/images\.unsplash\.com/g) || []).length >= 4);
   assert.match(app, /image-failed/);
   assert.match(app, /addEventListener\('error'/);
+  assert.match(app, /function getSceneImageUrl/);
+  assert.match(app, /image\.decode\(\)/);
+  assert.match(css, /html\{[^}]*scroll-snap-type:y proximity/);
+  assert.match(css, /\.scene:not\(\.scene--home\)\{content-visibility:auto;contain-intrinsic-size:auto 100svh\}/);
+  assert.match(css, /\.site-header\{backdrop-filter:none/);
+  assert.match(css, /\.scene-media\{transform:none;transition:none\}/);
 });
 
 test('light scenes opt into contrasting fixed header controls and hot list shows six rows', async () => {
