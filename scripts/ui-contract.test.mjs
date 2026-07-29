@@ -80,11 +80,11 @@ test('mobile navigation exposes previous, current, next and the complete directo
   assert.equal((html.match(/class="directory-link"/g) || []).length, 6);
 });
 
-test('only the home hero keeps remote imagery and CSS snapping stays disabled', async () => {
+test('original home visual avoids remote imagery and CSS snapping stays disabled', async () => {
   const [html, app, css] = await Promise.all([read('index.html'), read('src/app.js'), read('styles.css')]);
 
-  assert.equal((html.match(/data-bg-src="https:\/\/images\.unsplash\.com/g) || []).length, 1);
-  assert.match(html, /class="scene scene--home"[\s\S]*?data-bg-src="https:\/\/images\.unsplash\.com[^>]+data-priority="high"/);
+  assert.equal((html.match(/data-bg-src="https:\/\/images\.unsplash\.com/g) || []).length, 0);
+  assert.match(html, /class="scene scene--home"[\s\S]*?class="deep-field-canvas"/);
   for (const id of ['about', 'hot']) {
     const sectionStart = html.indexOf(`class="scene scene--${id}"`);
     const sectionEnd = html.indexOf('</section>', sectionStart);
@@ -148,6 +148,21 @@ test('trend scene exposes three accessible sources with source-specific safe lin
   assert.match(app, /https:\/\/news\.ycombinator\.com/);
   assert.match(app, /https:\/\/github\.com/);
   assert.match(app, /https:\/\/s\.weibo\.com/);
+});
+
+test('home visual, trend signal, and interest atlas remain original and accessible', async () => {
+  const [html, app, css] = await Promise.all([read('index.html'), read('src/app.js'), read('styles.css')]);
+
+  assert.match(html, /class="deep-field"/);
+  assert.match(html, /class="deep-field-canvas"/);
+  assert.match(app, /function initDeepField/);
+  assert.match(app, /prefers-reduced-motion/);
+  assert.match(html, /class="trend-signal"/);
+  assert.match(app, /function setTrendSignal/);
+  assert.match(html, /class="interest-atlas"/);
+  assert.match(app, /function setActiveInterest/);
+  assert.doesNotMatch(html, /RECENT QUEUE/);
+  assert.match(css, /@media\(prefers-reduced-motion:reduce\)[\s\S]*?deep-field-canvas/);
 });
 
 test('ships a local looping soundtrack with autoplay fallback and saved preference', async () => {

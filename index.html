@@ -37,7 +37,7 @@
 
     <main class="scene-track">
       <section class="scene scene--home" id="home" data-scene="home" aria-labelledby="home-title">
-        <div class="scene-media" role="img" aria-label="雾气中的安静湖面与群山" data-bg-src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=2200&q=90" data-priority="high"></div>
+        <div class="deep-field" aria-hidden="true"><canvas class="deep-field-canvas"></canvas></div>
         <div class="scene-shade"></div>
         <div class="hero-copy">
           <p class="scene-number">SCENE 01 / ARRIVAL</p>
@@ -159,6 +159,7 @@
               <button class="trend-tab" id="trend-tab-weibo" type="button" role="tab" aria-selected="false" aria-controls="trend-panel" data-hot-source="weibo" tabindex="-1">微博热搜</button>
             </div>
             <div id="trend-panel" role="tabpanel" aria-labelledby="trend-tab-ai">
+              <div class="trend-signal" data-source="ai" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
               <div class="hot-toolbar">
                 <p class="hot-search-status" role="status" aria-live="polite">正在连接 AI 热榜…</p>
                 <button class="hot-refresh" type="button">刷新</button>
@@ -180,12 +181,14 @@
             <p>不一定有用，但它们持续影响我做东西时的节奏、质感和选择。</p>
           </div>
           <div class="interest-index">
-            <article class="interest-row"><span>01 / SOUND</span><h3>声音</h3><p>环境电子、深夜电台、现场录音、能听见空间感的音乐。</p></article>
-            <article class="interest-row"><span>02 / GAMES</span><h3>游戏</h3><p>独立叙事、小型模拟、允许慢慢探索且不急着给答案的世界。</p></article>
-            <article class="interest-row"><span>03 / TOOLS</span><h3>工具</h3><p>本地优先、自动化、明确的按钮，以及真正减少重复劳动的软件。</p></article>
-            <article class="interest-row"><span>04 / OBJECTS</span><h3>物件</h3><p>旧设备、小灯、纸张、旋钮和那些会留下使用痕迹的东西。</p></article>
+            <div class="interest-atlas" role="tablist" aria-label="兴趣分类索引">
+              <button class="interest-node" type="button" role="tab" aria-selected="true" aria-controls="interest-detail" data-interest="sound"><span>01</span><strong>声音</strong><i aria-hidden="true"></i></button>
+              <button class="interest-node" type="button" role="tab" aria-selected="false" aria-controls="interest-detail" data-interest="games" tabindex="-1"><span>02</span><strong>游戏</strong><i aria-hidden="true"></i></button>
+              <button class="interest-node" type="button" role="tab" aria-selected="false" aria-controls="interest-detail" data-interest="tools" tabindex="-1"><span>03</span><strong>工具</strong><i aria-hidden="true"></i></button>
+              <button class="interest-node" type="button" role="tab" aria-selected="false" aria-controls="interest-detail" data-interest="objects" tabindex="-1"><span>04</span><strong>物件</strong><i aria-hidden="true"></i></button>
+            </div>
+            <div class="interest-detail" id="interest-detail" role="tabpanel" aria-live="polite"><p class="interest-detail__eyebrow">01 / SOUND</p><h3>声音</h3><p>环境电子、深夜电台、现场录音、能听见空间感的音乐。</p></div>
           </div>
-          <aside class="current-queue" aria-label="最近的内容队列"><span>RECENT QUEUE</span><div><small>READING</small><strong>一本还没读完的书</strong></div><div><small>WATCHING</small><strong>关于创作者工作室的纪录片</strong></div><div><small>PLAYING</small><strong>一个节奏很慢的独立游戏</strong></div></aside>
         </div>
       </section>
 

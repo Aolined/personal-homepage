@@ -18,6 +18,10 @@ const hotRefresh = document.querySelector('.hot-refresh');
 const hotSourceLabel = document.querySelector('.hot-source');
 const hotTabs = [...document.querySelectorAll('.trend-tab')];
 const hotPanel = document.querySelector('#trend-panel');
+const trendSignal = document.querySelector('.trend-signal');
+const deepFieldCanvas = document.querySelector('.deep-field-canvas');
+const interestNodes = [...document.querySelectorAll('.interest-node')];
+const interestDetail = document.querySelector('.interest-detail');
 const remoteSceneMedia = [...document.querySelectorAll('[data-bg-src]')];
 const musicStatus = document.querySelector('.music-status');
 const musicRetry = document.querySelector('.music-retry');
@@ -166,6 +170,137 @@ scenes.forEach((scene) => sceneObserver.observe(scene));
 
 const finePointer = matchMedia('(pointer: fine)');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+const interestContent = {
+  sound: { index: '01 / SOUND', title: '声音', description: '环境电子、深夜电台、现场录音、能听见空间感的音乐。' },
+  games: { index: '02 / GAMES', title: '游戏', description: '独立叙事、小型模拟、允许慢慢探索且不急着给答案的世界。' },
+  tools: { index: '03 / TOOLS', title: '工具', description: '本地优先、自动化、明确的按钮，以及真正减少重复劳动的软件。' },
+  objects: { index: '04 / OBJECTS', title: '物件', description: '旧设备、小灯、纸张、旋钮和那些会留下使用痕迹的东西。' },
+};
+
+function setActiveInterest(id, { focus = false } = {}) {
+  const content = interestContent[id];
+  const nextIndex = interestNodes.findIndex((node) => node.dataset.interest === id);
+  if (!content || nextIndex === -1) return;
+
+  interestNodes.forEach((node, index) => {
+    const selected = index === nextIndex;
+    node.setAttribute('aria-selected', String(selected));
+    node.tabIndex = selected ? 0 : -1;
+  });
+  interestDetail.querySelector('.interest-detail__eyebrow').textContent = content.index;
+  interestDetail.querySelector('h3').textContent = content.title;
+  interestDetail.querySelector('p:last-child').textContent = content.description;
+  if (focus) interestNodes[nextIndex].focus();
+}
+
+interestNodes.forEach((node, index) => {
+  node.addEventListener('click', () => setActiveInterest(node.dataset.interest));
+  node.addEventListener('keydown', (event) => {
+    const offsets = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+    let nextIndex = index;
+    if (event.key in offsets) nextIndex = (index + offsets[event.key] + interestNodes.length) % interestNodes.length;
+    else if (event.key === 'Home') nextIndex = 0;
+    else if (event.key === 'End') nextIndex = interestNodes.length - 1;
+    else return;
+    event.preventDefault();
+    setActiveInterest(interestNodes[nextIndex].dataset.interest, { focus: true });
+  });
+});
+
+function initDeepField(canvas) {
+  if (!canvas) return;
+  const context = canvas.getContext('2d', { alpha: true });
+  if (!context) return;
+  const field = canvas.closest('.deep-field');
+  const points = [];
+  const mouse = { x: -10_000, y: -10_000, active: false };
+  let frame = 0;
+  let visible = true;
+  let width = 0;
+  let height = 0;
+  let pixelRatio = 1;
+
+  function rebuild() {
+    const bounds = canvas.getBoundingClientRect();
+    width = Math.max(1, bounds.width);
+    height = Math.max(1, bounds.height);
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5);
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    const count = Math.min(150, Math.max(72, Math.round((width * height) / 13_000)));
+    points.length = 0;
+    for (let index = 0; index < count; index += 1) {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = Math.pow(Math.random(), 0.62);
+      points.push({
+        angle,
+        radius,
+        lane: (Math.random() - 0.5) * 0.44,
+        size: 0.7 + Math.random() * 2.2,
+        phase: Math.random() * Math.PI * 2,
+        drift: 0.22 + Math.random() * 0.52,
+        glow: 0.28 + Math.random() * 0.72,
+      });
+    }
+  }
+
+  function draw(time = 0) {
+    frame = 0;
+    context.clearRect(0, 0, width, height);
+    const tick = reducedMotion.matches ? 0 : time * 0.00022;
+    const centerX = width * 0.58;
+    const centerY = height * 0.54;
+    const radiusX = width * 0.43;
+    const radiusY = height * 0.33;
+    for (const point of points) {
+      const breathing = 1 + Math.sin(tick * 1.7 + point.phase) * 0.045;
+      let x = centerX + Math.cos(point.angle + tick * point.drift) * radiusX * point.radius * breathing;
+      let y = centerY + Math.sin(point.angle * 1.35 + tick * point.drift + point.phase * 0.13) * radiusY * point.radius * breathing + point.lane * height;
+      if (mouse.active && finePointer.matches && !reducedMotion.matches) {
+        const dx = x - mouse.x;
+        const dy = y - mouse.y;
+        const distance = Math.hypot(dx, dy) || 1;
+        const force = Math.max(0, 1 - distance / 150);
+        x += (dx / distance) * force * 34;
+        y += (dy / distance) * force * 34;
+      }
+      const alpha = 0.16 + point.glow * 0.58;
+      context.beginPath();
+      context.fillStyle = `rgba(166, 236, 224, ${alpha})`;
+      context.arc(x, y, point.size * (0.82 + Math.sin(tick * 2.2 + point.phase) * 0.12), 0, Math.PI * 2);
+      context.fill();
+    }
+    if (visible && !reducedMotion.matches) frame = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('pointermove', (event) => {
+    const bounds = canvas.getBoundingClientRect();
+    mouse.active = event.clientX >= bounds.left && event.clientX <= bounds.right
+      && event.clientY >= bounds.top && event.clientY <= bounds.bottom;
+    if (mouse.active) {
+      mouse.x = event.clientX - bounds.left;
+      mouse.y = event.clientY - bounds.top;
+    }
+  }, { passive: true });
+  window.addEventListener('blur', () => { mouse.active = false; });
+  new ResizeObserver(() => { rebuild(); if (!frame) draw(performance.now()); }).observe(canvas);
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    if (!visible) {
+      if (frame) cancelAnimationFrame(frame);
+      frame = 0;
+      return;
+    }
+    if (!frame) draw(performance.now());
+  }, { threshold: 0.05 }).observe(field);
+  reducedMotion.addEventListener('change', () => { if (frame) cancelAnimationFrame(frame); frame = 0; draw(performance.now()); });
+  rebuild();
+  draw(performance.now());
+}
+
+initDeepField(deepFieldCanvas);
 let wheelDelta = 0;
 let wheelResetTimer = 0;
 let wheelUnlockTimer = 0;
@@ -339,6 +474,21 @@ function createHotItem(item, source) {
   return row;
 }
 
+function setTrendSignal(payload, source) {
+  if (!trendSignal) return;
+  trendSignal.dataset.source = source;
+  const values = Array.isArray(payload?.data)
+    ? payload.data.map((item) => Math.max(0, Number(item?.hot) || 0)).filter(Boolean)
+    : [];
+  const max = Math.max(...values, 1);
+  [...trendSignal.children].forEach((bar, index) => {
+    const value = values[index % Math.max(values.length, 1)] || 0;
+    const level = values.length ? 18 + Math.round((value / max) * 82) : 12;
+    bar.style.setProperty('--signal-level', String(level));
+    bar.style.setProperty('--signal-delay', `${(index % 6) * -0.15}s`);
+  });
+}
+
 function renderHotSearch(payload, source = activeHotSource) {
   const config = HOT_SOURCES[source];
   const items = Array.isArray(payload?.data) ? payload.data.map((item) => createHotItem(item, source)).filter(Boolean).slice(0, 6) : [];
@@ -351,6 +501,7 @@ function renderHotSearch(payload, source = activeHotSource) {
     hotList.replaceChildren(...items);
   }
 
+  setTrendSignal(payload, source);
   const updated = payload?.updatedAt ? new Date(payload.updatedAt).toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) : '';
   if (payload?.status === 'live') hotStatus.textContent = `实时 · 更新于 ${updated}`;
   else if (payload?.status === 'stale') hotStatus.textContent = `连接波动 · 显示 ${updated} 的最近数据`;
@@ -399,6 +550,7 @@ hotTabs.forEach((tab) => tab.addEventListener('click', () => {
   const cached = hotPayloads.get(source);
   if (cached) renderHotSearch(cached, source);
   else {
+    setTrendSignal(null, source);
     hotList.replaceChildren(Object.assign(document.createElement('li'), { className: 'hot-message', textContent: `正在获取${HOT_SOURCES[source].label}…` }));
     hotSourceLabel.textContent = `${HOT_SOURCES[source].sourceLabel} · 自动更新间隔 2 分钟`;
   }
