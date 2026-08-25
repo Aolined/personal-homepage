@@ -13,10 +13,10 @@ test('ships six ordered scenes including a single truthful works scene', async (
   assert.match(html, /Aolined Personal Scenes/);
 });
 
-test('works section contains all four real projects without adding another scene', async () => {
+test('works section contains all five real projects without adding another scene', async () => {
   const html = await read('index.html');
 
-  assert.equal((html.match(/class="project-entry(?:\s|")/g) || []).length, 4);
+  assert.equal((html.match(/class="project-entry(?:\s|")/g) || []).length, 5);
   assert.match(html, /Aolined Personal Scenes/);
   assert.match(html, /id="echo-work-title">Echo Music/);
   assert.match(html, /assets\/echo-music\/player-preview\.png/);
@@ -31,10 +31,13 @@ test('works section contains all four real projects without adding another scene
   assert.match(html, /不托管项目代码/);
   assert.match(html, /https:\/\/aolined\.github\.io\/indie-explorer\//);
   assert.match(html, /assets\/indie-explorer\/indie-preview\.png/);
+  assert.match(html, /id="snake-work-title">Snake Arcade/);
+  assert.match(html, /assets\/snake\/snake-preview\.png/);
+  assert.match(html, /href="snake\.html"/);
   assert.doesNotMatch(html, /data-scene="music"/);
 });
 
-test('works section exposes an accessible four-project orbital index', async () => {
+test('works section exposes an accessible five-project orbital index', async () => {
   const [html, app, css] = await Promise.all([read('index.html'), read('src/app.js'), read('styles.css')]);
 
   assert.match(html, /class="works-constellation"/);
@@ -44,8 +47,8 @@ test('works section exposes an accessible four-project orbital index', async () 
   assert.doesNotMatch(html, /project-entry__visual--monogram/);
   assert.match(html, /id="works-title">项目轨道/);
   assert.match(html, /role="tablist"[^>]+aria-label="项目轨道"/);
-  assert.equal((html.match(/class="work-star[^"]*"[^>]+role="tab"/g) || []).length, 4);
-  assert.equal((html.match(/class="project-entry[^"]*"[^>]+role="tabpanel"/g) || []).length, 4);
+  assert.equal((html.match(/class="work-star[^"]*"[^>]+role="tab"/g) || []).length, 5);
+  assert.equal((html.match(/class="project-entry[^"]*"[^>]+role="tabpanel"/g) || []).length, 5);
   assert.match(html, /class="work-selection-status"[^>]+aria-live="polite"/);
   assert.match(app, /function setActiveWork/);
   assert.match(app, /ArrowRight/);
@@ -55,6 +58,7 @@ test('works section exposes an accessible four-project orbital index', async () 
   assert.equal((html.match(/class="orbital-track"/g) || []).length, 1);
   assert.doesNotMatch(html, /constellation-route--/);
   assert.match(css, /data-active-work="homepage"/);
+  assert.match(css, /data-active-work="snake"/);
   assert.match(css, /data-active-work="indie"/);
   assert.match(css, /--work-color:/);
   assert.match(css, /\.work-star:not\(\[aria-selected="true"\]\) \.work-star__point/);
