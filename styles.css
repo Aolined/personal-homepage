@@ -379,7 +379,7 @@ html{scroll-snap-type:none}
   position:absolute;inset:0;z-index:-1;pointer-events:none;
   background-color:var(--atmos-base);
   background-image:
-    radial-gradient(120% 92% at 74% 4%, rgba(150,222,235,.22), transparent 50%),
+    radial-gradient(120% 92% at 74% 4%, rgba(150,222,235,.30), transparent 50%),
     radial-gradient(185% 145% at 0% 110%, rgba(34,92,104,.30), transparent 60%),
     linear-gradient(112deg,var(--atmos-hi) 0%,var(--atmos-base) 50%,var(--atmos-lo) 100%),
     linear-gradient(0deg, rgba(3,7,7,.5), transparent 44%);
@@ -390,5 +390,5 @@ html{scroll-snap-type:none}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
   background-size:82px 82px;mix-blend-mode:overlay;
 }
-.scene--works{--atmos-base:#0b0f0e;--atmos-hi:#18211f;--atmos-lo:#05070a}
-.scene--hot{--atmos-base:#142129;--atmos-hi:#233742;--atmos-lo:#0a1118}
+.scene--works{--atmos-base:#0b0f0e;--atmos-hi:#1f2b27;--atmos-lo:#05070a}
+.scene--hot{--atmos-base:#142129;--atmos-hi:#2b4552;--atmos-lo:#0a1118}
