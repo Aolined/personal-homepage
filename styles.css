@@ -266,8 +266,8 @@ html{scroll-snap-type:none}
 .scene--about{background:#d8d6cf;color:#151715}
 /* Light scene atmosphere (about): paper glow + ghost index, echoes hot's ghost numeral. */
 .scene--about{background-image:radial-gradient(150% 135% at 12% -12%,rgba(255,255,255,.92),transparent 55%),radial-gradient(130% 100% at 100% 118%,rgba(202,212,207,.62),transparent 58%),linear-gradient(166deg,rgba(21,23,21,.09) 0%,transparent 62%)}
-.scene--about::before{content:"02";position:absolute;right:4vw;bottom:3vh;color:rgba(21,23,21,.105);font:400 clamp(200px,30vw,440px)/.86 Georgia,serif;pointer-events:none;opacity:0;transform:translateY(24px);transition:opacity .9s .08s,transform .9s cubic-bezier(.2,.7,.2,1) .08s}
-.scene--about.is-visible::before{opacity:1;transform:translateY(0)}
+.scene--about::before{content:"02";position:absolute;right:3vw;top:50%;transform:translateY(-50%);color:rgba(21,23,21,.13);font:400 clamp(300px,46vw,660px)/.78 Georgia,serif;pointer-events:none;opacity:0;transition:opacity .9s .08s}
+.scene--about.is-visible::before{opacity:1}
 
 .scene--about::after{content:"";position:absolute;inset:84px 4vw 6vh;border-top:1px solid rgba(21,23,21,.2);border-bottom:1px solid rgba(21,23,21,.2);pointer-events:none}
 .scene--about .story-panel{left:clamp(40px,8vw,140px);bottom:10vh;width:min(940px,78vw);padding:0 0 30px;border-top:0;background:transparent;color:#151715}
@@ -297,7 +297,7 @@ html{scroll-snap-type:none}
   .scene--about .story-columns{grid-template-columns:1fr;gap:24px}
   .scene--about .story-columns>p{font-size:12px;line-height:1.8}
   .scene--hot::before{right:18px;top:80px;font-size:96px}
-  .scene--about::before{right:14px;bottom:92px;font-size:110px}
+  .scene--about::before{right:10px;font-size:140px;transform:translateY(-50%)}
   .scene--interests::before{right:14px;top:78px;font-size:110px}
 }
 
@@ -452,16 +452,10 @@ html{scroll-snap-type:none}
 }
 
 /* Light scene accent rails: visible editorial detail on about/interests. */
-.scene--about .story-panel{position:relative}
-.scene--about .story-panel::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,#3b523f,rgba(59,82,63,0));pointer-events:none}
-.scene--about .story-panel h2{margin-left:26px}
-.scene--about .story-columns{margin-left:26px}
-.scene--about .now-line{margin-left:26px}
+
 .scene--interests .interest-detail{position:relative;padding-left:24px}
 .scene--interests .interest-detail::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#48513b,rgba(72,81,59,0));pointer-events:none}
 @media(max-width:720px){
-  .scene--about .story-panel::before{content:none}
-  .scene--about .story-panel h2,.scene--about .story-columns,.scene--about .now-line{margin-left:0}
   .scene--interests .interest-detail::before{content:none}
   .scene--interests .interest-detail{padding-left:0}
 }
