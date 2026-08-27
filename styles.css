@@ -12,8 +12,8 @@
 /* Interest archive and richer project details */
 .scene--interests{background:#d9d7cf;color:#111}
 /* Light scene atmosphere (interests): signal-dot field + paper glow + ghost index. */
-.scene--interests{background-image:radial-gradient(circle at 12px 12px,rgba(21,23,21,.085) 1px,transparent 1.6px),radial-gradient(120% 100% at 88% -8%,rgba(255,255,255,.5),transparent 48%),linear-gradient(8deg,rgba(21,23,21,.04),transparent 55%);background-size:26px 26px,auto,auto}
-.scene--interests::before{content:"05";position:absolute;right:5vw;top:10vh;color:rgba(21,23,21,.05);font:400 clamp(150px,24vw,340px)/1 Georgia,serif;pointer-events:none;opacity:0;transform:translateY(24px);transition:opacity .9s .08s,transform .9s cubic-bezier(.2,.7,.2,1) .08s}
+.scene--interests{background-image:radial-gradient(circle at 11px 11px,rgba(21,23,21,.14) 1.5px,transparent 2.1px),radial-gradient(140% 112% at 88% -10%,rgba(255,255,255,.85),transparent 52%),linear-gradient(8deg,rgba(21,23,21,.06),transparent 55%);background-size:22px 22px,auto,auto}
+.scene--interests::before{content:"05";position:absolute;right:4vw;top:8vh;color:rgba(21,23,21,.10);font:400 clamp(200px,30vw,440px)/.86 Georgia,serif;pointer-events:none;opacity:0;transform:translateY(24px);transition:opacity .9s .08s,transform .9s cubic-bezier(.2,.7,.2,1) .08s}
 .scene--interests.is-visible::before{opacity:1;transform:translateY(0)}
 .scene--interests .scene-number{color:#48513b}.interests-shell{position:absolute;inset:13vh 8vw 8vh;display:grid;grid-template-columns:.75fr 1.35fr;grid-template-rows:1fr auto;gap:5vh 8vw;align-items:start}.interests-heading h2{margin:18px 0 24px;font:400 clamp(42px,6vw,82px)/.98 Georgia,"Microsoft YaHei",serif}.interests-heading>p:last-child{max-width:330px;color:#575950;font-size:12px;line-height:1.8}.interest-index{border-top:1px solid rgba(17,17,17,.35)}.interest-row{display:grid;grid-template-columns:90px 105px 1fr;gap:18px;align-items:baseline;padding:18px 0;border-bottom:1px solid rgba(17,17,17,.35)}.interest-row>span{font-size:8px;letter-spacing:.12em}.interest-row h3{margin:0;font:400 22px Georgia,"Microsoft YaHei",serif}.interest-row p{margin:0;color:#55574f;font-size:11px;line-height:1.7}.current-queue{grid-column:1/-1;display:grid;grid-template-columns:140px repeat(3,1fr);border-top:1px solid rgba(17,17,17,.35);border-bottom:1px solid rgba(17,17,17,.35)}.current-queue>span,.current-queue>div{padding:16px 14px;border-right:1px solid rgba(17,17,17,.2)}.current-queue>span{font-size:8px;letter-spacing:.14em}.current-queue small,.current-queue strong{display:block}.current-queue small{color:#66685f;font-size:7px;letter-spacing:.12em}.current-queue strong{margin-top:7px;font-size:10px;font-weight:400}.dialog-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:22px 0 0;border-top:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2)}.dialog-facts div{padding:13px 14px 13px 0}.dialog-facts dt{color:#888;font-size:8px;letter-spacing:.12em}.dialog-facts dd{margin:6px 0 0;font-size:10px}.dialog-meta{margin-top:15px}
 @media(max-width:900px) and (min-width:721px){.site-header{padding-inline:24px}.scene-nav{gap:14px}.scene-nav a{font-size:8px}.sound-label{display:none}}
@@ -265,8 +265,8 @@ html{scroll-snap-type:none}
 
 .scene--about{background:#d8d6cf;color:#151715}
 /* Light scene atmosphere (about): paper glow + ghost index, echoes hot's ghost numeral. */
-.scene--about{background-image:radial-gradient(130% 105% at 14% -6%,rgba(255,255,255,.58),transparent 50%),linear-gradient(172deg,rgba(21,23,21,.05),transparent 62%)}
-.scene--about::before{content:"02";position:absolute;right:5vw;bottom:6vh;color:rgba(21,23,21,.055);font:400 clamp(150px,24vw,340px)/1 Georgia,serif;pointer-events:none;opacity:0;transform:translateY(24px);transition:opacity .9s .08s,transform .9s cubic-bezier(.2,.7,.2,1) .08s}
+.scene--about{background-image:radial-gradient(150% 135% at 12% -12%,rgba(255,255,255,.92),transparent 55%),radial-gradient(130% 100% at 100% 118%,rgba(202,212,207,.62),transparent 58%),linear-gradient(166deg,rgba(21,23,21,.09) 0%,transparent 62%)}
+.scene--about::before{content:"02";position:absolute;right:4vw;bottom:3vh;color:rgba(21,23,21,.105);font:400 clamp(200px,30vw,440px)/.86 Georgia,serif;pointer-events:none;opacity:0;transform:translateY(24px);transition:opacity .9s .08s,transform .9s cubic-bezier(.2,.7,.2,1) .08s}
 .scene--about.is-visible::before{opacity:1;transform:translateY(0)}
 
 .scene--about::after{content:"";position:absolute;inset:84px 4vw 6vh;border-top:1px solid rgba(21,23,21,.2);border-bottom:1px solid rgba(21,23,21,.2);pointer-events:none}
@@ -449,4 +449,19 @@ html{scroll-snap-type:none}
   .project-entry__link span[aria-hidden]{transform:none!important;transition:none}
   .brand,.brand span{transition:none}
   .scene-nav a::before{transform:none;transition:none}
+}
+
+/* Light scene accent rails: visible editorial detail on about/interests. */
+.scene--about .story-panel{position:relative}
+.scene--about .story-panel::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:linear-gradient(180deg,#3b523f,rgba(59,82,63,0));pointer-events:none}
+.scene--about .story-panel h2{margin-left:26px}
+.scene--about .story-columns{margin-left:26px}
+.scene--about .now-line{margin-left:26px}
+.scene--interests .interest-detail{position:relative;padding-left:24px}
+.scene--interests .interest-detail::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#48513b,rgba(72,81,59,0));pointer-events:none}
+@media(max-width:720px){
+  .scene--about .story-panel::before{content:none}
+  .scene--about .story-panel h2,.scene--about .story-columns,.scene--about .now-line{margin-left:0}
+  .scene--interests .interest-detail::before{content:none}
+  .scene--interests .interest-detail{padding-left:0}
 }
