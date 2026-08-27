@@ -392,3 +392,49 @@ html{scroll-snap-type:none}
 }
 .scene--works{--atmos-base:#0b0f0e;--atmos-hi:#1f2b27;--atmos-lo:#05070a}
 .scene--hot{--atmos-base:#142129;--atmos-hi:#2b4552;--atmos-lo:#0a1118}
+
+/* ===== Refined motion & micro-interactions (landing.love / siteinspire / land-book / awwwards) ===== */
+
+/* Scene entrance reveal: shells fade+rise when their scene becomes visible. */
+@keyframes revealIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes heroReveal{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.reveal{opacity:0;transform:translateY(20px)}
+.scene.is-visible .reveal{animation:revealIn .9s cubic-bezier(.2,.7,.2,1) both}
+.hero-reveal{opacity:0;transform:translateY(26px);animation:heroReveal .9s cubic-bezier(.2,.7,.2,1) var(--d,0s) both}
+
+/* Scene nav: accent dash marker on hover / current scene. */
+.scene-nav a{position:relative}
+.scene-nav a::before{content:"";position:absolute;left:-14px;top:50%;width:6px;height:1px;background:var(--accent);transform:scaleX(0);transition:transform .3s cubic-bezier(.2,.7,.2,1)}
+.scene-nav a:hover::before,.scene-nav a[aria-current=page]::before{transform:scaleX(1)}
+
+/* Hot ghost number rises in when its scene enters. */
+.scene--hot::before{opacity:0;transform:translateY(22px);transition:opacity .9s .08s,transform .9s cubic-bezier(.2,.7,.2,1) .08s}
+.scene--hot.is-visible::before{opacity:1;transform:translateY(0)}
+
+/* Hot list rows glide slightly on hover. */
+.hot-list a{transition:transform .25s cubic-bezier(.2,.7,.2,1),background .2s}
+.hot-list a:hover{transform:translateX(4px)}
+
+/* Project entry links: arrow nudges out on hover. */
+.project-entry__link span[aria-hidden]{display:inline-block;transition:transform .2s}
+.project-entry__link:hover span[aria-hidden]{transform:translate(4px,-4px)}
+
+/* Brand: wordmark breathes, A mark tilts. */
+.brand{transition:letter-spacing .3s ease-out}
+.brand:hover{letter-spacing:.22em}
+.brand span{transition:transform .3s ease-out,background .2s,color .2s}
+.brand:hover span{transform:rotate(-6deg)}
+
+/* Selection accent. */
+::selection{background:var(--accent);color:#0b0d0c}
+::-moz-selection{background:var(--accent);color:#0b0d0c}
+
+/* Reduced-motion: new effects degrade gracefully. */
+@media(prefers-reduced-motion:reduce){
+  .reveal,.hero-reveal{animation:none;opacity:1;transform:none}
+  .scene--hot::before{opacity:1;transform:none;transition:none}
+  .hot-list a{transform:none!important;transition:none}
+  .project-entry__link span[aria-hidden]{transform:none!important;transition:none}
+  .brand,.brand span{transition:none}
+  .scene-nav a::before{transform:none;transition:none}
+}

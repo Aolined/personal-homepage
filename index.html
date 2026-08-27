@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script>document.documentElement.classList.add('js');</script>
     <meta name="description" content="Aolined 的个人场景主页，记录作品与当下。">
     <meta name="theme-color" content="#0b0d0c">
     <title>Aolined / Personal Scenes</title>
@@ -40,14 +41,14 @@
         <div class="deep-field" aria-hidden="true"><canvas class="deep-field-canvas"></canvas></div>
         <div class="scene-shade"></div>
         <div class="hero-copy">
-          <p class="scene-number">SCENE 01 / ARRIVAL</p>
-          <h1 id="home-title">Aolined</h1>
-          <div class="hero-intro">
+          <p class="scene-number hero-reveal" style="--d:.06s">SCENE 01 / ARRIVAL</p>
+          <h1 id="home-title" class="hero-reveal" style="--d:.22s">Aolined</h1>
+          <div class="hero-intro hero-reveal" style="--d:.42s">
             <p class="hero-line">个人作品、声音实验<br>与生活片段。</p>
             <p class="hero-edition"><span>PERSONAL SCENES</span><strong>WEB · AI · SOUND</strong></p>
           </div>
         </div>
-        <a class="scroll-cue" href="#about"><span>继续浏览</span><i aria-hidden="true"></i></a>
+        <a class="scroll-cue hero-reveal" style="--d:.62s" href="#about"><span>继续浏览</span><i aria-hidden="true"></i></a>
       </section>
 
       <section class="scene scene--about" id="about" data-scene="about" data-header-tone="light" aria-labelledby="about-title">
