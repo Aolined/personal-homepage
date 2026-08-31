@@ -163,8 +163,9 @@ test('home visual, trend signal, and interest atlas remain original and accessib
   assert.match(app, /prefers-reduced-motion/);
   assert.match(html, /class="trend-signal"/);
   assert.match(app, /function setTrendSignal/);
-  assert.match(html, /class="interest-atlas"/);
-  assert.match(app, /function setActiveInterest/);
+  assert.match(html, /class="interest-grid"/);
+  assert.match(html, /class="ig-card"/);
+  assert.equal((html.match(/class="ig-card"/g) || []).length, 4);
   assert.doesNotMatch(html, /RECENT QUEUE/);
   assert.match(css, /@media\(prefers-reduced-motion:reduce\)[\s\S]*?deep-field-canvas/);
 });
