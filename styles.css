@@ -265,6 +265,10 @@ html{scroll-snap-type:none}
 /* Light scene atmosphere (about): paper glow + ghost index, echoes hot's ghost numeral. */
 .scene--about{background-image:radial-gradient(150% 135% at 12% -12%,rgba(255,255,255,.92),transparent 55%),radial-gradient(130% 100% at 100% 118%,rgba(202,212,207,.62),transparent 58%),linear-gradient(166deg,rgba(21,23,21,.09) 0%,transparent 62%)}
 .scene--about::after{content:"";position:absolute;inset:84px 4vw 6vh;border-top:1px solid rgba(21,23,21,.2);border-bottom:1px solid rgba(21,23,21,.2);pointer-events:none}
+
+/* About: photo-like light atmosphere (CSS gradient, zero dependency). */
+.scene--about .scene-media{background:radial-gradient(140% 120% at 6% -8%,rgba(255,248,236,.92) 0%,transparent 54%),radial-gradient(110% 90% at 100% 110%,rgba(205,212,200,.58) 0%,transparent 56%),radial-gradient(80% 70% at 50% 50%,rgba(222,218,208,.3) 0%,transparent 60%);background-color:#d8d6cf}
+.scene--about .scene-shade{background:linear-gradient(168deg,rgba(21,23,21,.06) 0%,transparent 48%,rgba(21,23,21,.04) 100%)}
 .scene--about .story-panel{left:clamp(40px,8vw,140px);bottom:10vh;width:min(940px,78vw);padding:0 0 30px;border-top:0;background:transparent;color:#151715}
 .scene--about .scene-number{color:#3b523f}
 .scene--about .story-panel h2{max-width:760px;margin:22px 0 48px;font-size:clamp(46px,5.8vw,82px)}
@@ -354,6 +358,10 @@ html{scroll-snap-type:none}
 .interest-node:hover,.interest-node[aria-selected="true"]{background:#1b2523;color:#f2f0e8}
 .interest-node[aria-selected="true"] i{background:#b9f0e5;border-color:#b9f0e5;opacity:1;box-shadow:0 0 0 5px rgba(185,240,229,.14)}
 .interest-node:focus-visible{z-index:1;outline:2px solid #71837a;outline-offset:-5px}
+
+/* Interests: photo-like light atmosphere (warmer, with field depth). */
+.scene--interests .scene-media{background:radial-gradient(130% 110% at 82% -6%,rgba(240,245,232,.88) 0%,transparent 50%),radial-gradient(100% 85% at 10% 110%,rgba(195,205,190,.5) 0%,transparent 52%),radial-gradient(70% 60% at 50% 50%,rgba(215,220,208,.25) 0%,transparent 58%);background-color:#d9d7cf}
+.scene--interests .scene-shade{background:linear-gradient(172deg,rgba(21,23,21,.05) 0%,transparent 52%,rgba(21,23,21,.03) 100%)}
 .interest-detail{min-height:224px;padding:clamp(22px,3vw,46px) 0;border-top:1px solid rgba(17,17,17,.45);border-bottom:1px solid rgba(17,17,17,.45)}
 .interest-detail__eyebrow{margin:0;color:#62726a;font-size:8px;letter-spacing:.16em}
 .interest-detail h3{margin:clamp(20px,4vh,46px) 0 12px;font:400 clamp(34px,4.6vw,62px)/.95 Georgia,"Microsoft YaHei",serif}
@@ -434,11 +442,11 @@ html{scroll-snap-type:none}
 /* Reduced-motion: new effects degrade gracefully. */
 @media(prefers-reduced-motion:reduce){
   .reveal,.hero-reveal{animation:none;opacity:1;transform:none}
-  
-.hot-list a{transform:none!important;transition:none}
+  .hot-list a{transform:none!important;transition:none}
   .project-entry__link span[aria-hidden]{transform:none!important;transition:none}
   .brand,.brand span{transition:none}
   .scene-nav a::before{transform:none;transition:none}
+  .scene--works .scene-atmos,.scene--hot .scene-atmos{animation:none}
 }
 
 /* Light scene accent rails: visible editorial detail on about/interests. */
@@ -449,3 +457,8 @@ html{scroll-snap-type:none}
   .scene--interests .interest-detail::before{content:none}
   .scene--interests .interest-detail{padding-left:0}
 }
+
+/* Works: subtle animated gradient drift (breathing light). */
+.scene--works .scene-atmos{animation:driftLight 12s ease-in-out infinite alternate}
+.scene--hot .scene-atmos{animation:driftLight 14s ease-in-out infinite alternate}
+@keyframes driftLight{0%{background-position:0% 0%}100%{background-position:4% 3%}}
