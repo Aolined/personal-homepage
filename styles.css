@@ -267,8 +267,8 @@ html{scroll-snap-type:none}
 .scene--about::after{content:"";position:absolute;inset:84px 4vw 6vh;border-top:1px solid rgba(21,23,21,.2);border-bottom:1px solid rgba(21,23,21,.2);pointer-events:none}
 
 /* About: photo-like light atmosphere (CSS gradient, zero dependency). */
-.scene--about .scene-media{background:radial-gradient(140% 120% at 6% -8%,rgba(255,248,236,.92) 0%,transparent 54%),radial-gradient(110% 90% at 100% 110%,rgba(205,212,200,.58) 0%,transparent 56%),radial-gradient(80% 70% at 50% 50%,rgba(222,218,208,.3) 0%,transparent 60%);background-color:#d8d6cf}
-.scene--about .scene-shade{background:linear-gradient(168deg,rgba(21,23,21,.06) 0%,transparent 48%,rgba(21,23,21,.04) 100%)}
+.scene--about .scene-media{background-image:url('assets/about-warm.jpg');background-color:#d8d6cf}
+.scene--about .scene-shade{background:linear-gradient(180deg,rgba(216,214,207,.52) 0%,rgba(216,214,207,.28) 50%,rgba(216,214,207,.62) 100%)}
 .scene--about .story-panel{left:clamp(40px,8vw,140px);bottom:10vh;width:min(940px,78vw);padding:0 0 30px;border-top:0;background:transparent;color:#151715}
 .scene--about .scene-number{color:#3b523f}
 .scene--about .story-panel h2{max-width:760px;margin:22px 0 48px;font-size:clamp(46px,5.8vw,82px)}
@@ -360,8 +360,8 @@ html{scroll-snap-type:none}
 .interest-node:focus-visible{z-index:1;outline:2px solid #71837a;outline-offset:-5px}
 
 /* Interests: photo-like light atmosphere (warmer, with field depth). */
-.scene--interests .scene-media{background:radial-gradient(130% 110% at 82% -6%,rgba(240,245,232,.88) 0%,transparent 50%),radial-gradient(100% 85% at 10% 110%,rgba(195,205,190,.5) 0%,transparent 52%),radial-gradient(70% 60% at 50% 50%,rgba(215,220,208,.25) 0%,transparent 58%);background-color:#d9d7cf}
-.scene--interests .scene-shade{background:linear-gradient(172deg,rgba(21,23,21,.05) 0%,transparent 52%,rgba(21,23,21,.03) 100%)}
+.scene--interests .scene-media{background-image:url('assets/interests-light.jpg');background-color:#d9d7cf}
+.scene--interests .scene-shade{background:linear-gradient(180deg,rgba(217,215,207,.48) 0%,rgba(217,215,207,.24) 50%,rgba(217,215,207,.58) 100%)}
 .interest-detail{min-height:224px;padding:clamp(22px,3vw,46px) 0;border-top:1px solid rgba(17,17,17,.45);border-bottom:1px solid rgba(17,17,17,.45)}
 .interest-detail__eyebrow{margin:0;color:#62726a;font-size:8px;letter-spacing:.16em}
 .interest-detail h3{margin:clamp(20px,4vh,46px) 0 12px;font:400 clamp(34px,4.6vw,62px)/.95 Georgia,"Microsoft YaHei",serif}
@@ -447,7 +447,6 @@ html{scroll-snap-type:none}
   .brand,.brand span{transition:none}
   .scene-nav a::before{transform:none;transition:none}
   .scene--works .scene-atmos,.scene--hot .scene-atmos,.scene-atmos-light{animation:none}
-  .scene--about .scene-media,.scene--interests .scene-media{animation:none}
 }
 
 /* Light scene accent rails: visible editorial detail on about/interests. */
@@ -467,12 +466,12 @@ html{scroll-snap-type:none}
 /* Moving light pool: a soft cool glow drifts across the dark scenes (works/hot),
    echoing the home canvas' living quality without being busy. */
 .scene-atmos-light{position:absolute;inset:0;z-index:-1;pointer-events:none;
-  background:radial-gradient(40% 58% at 30% 22%,rgba(150,222,235,.16),transparent 70%);
+  background:radial-gradient(40% 58% at 30% 22%,rgba(150,222,235,.30),transparent 70%);
   mix-blend-mode:screen;
   animation:lightPool 22s ease-in-out infinite alternate}
-.scene--hot .scene-atmos-light{background:radial-gradient(42% 60% at 68% 20%,rgba(140,190,215,.18),transparent 72%)}
+.scene--works .scene-atmos-light::after{content:"";position:absolute;inset:0;background:radial-gradient(30% 45% at 70% 60%,rgba(210,240,245,.14),transparent 65%);mix-blend-mode:screen;animation:lightPool 26s ease-in-out infinite alternate-reverse;pointer-events:none}
+.scene--hot .scene-atmos-light{background:radial-gradient(42% 60% at 68% 20%,rgba(140,190,215,.32),transparent 72%)}
 @keyframes lightPool{0%{transform:translate3d(-7%,-5%,0) scale(1)}100%{transform:translate3d(7%,5%,0) scale(1.06)}}
 
 /* Very slow flow on the light scenes (about/interests) so the paper-light feels alive. */
-.scene--about .scene-media,.scene--interests .scene-media{animation:paperFlow 26s ease-in-out infinite alternate}
-@keyframes paperFlow{0%{background-position:0% 0%}100%{background-position:6% 4%}}
+
