@@ -120,17 +120,17 @@ test('contact scene closes with a local cinematic landscape', async () => {
   const [html, css, image] = await Promise.all([
     read('index.html'),
     read('styles.css'),
-    stat(new URL('../assets/contact-forest.jpg', import.meta.url)),
+    stat(new URL('../assets/contact-forest.webp', import.meta.url)),
   ]);
 
   assert.match(html, /class="scene scene--contact"[^>]+data-contact-layout="cinematic-landscape"/);
-  assert.match(html, /class="scene-media"[^>]+data-bg-src="assets\/contact-forest\.jpg"/);
+  assert.match(html, /class="scene-media"[^>]+data-bg-src="assets\/contact-forest\.webp"/);
   assert.match(html, /class="scene-shade"/);
   assert.match(css, /\.scene--contact \.scene-shade\{background:rgba\(4,9,7,\.58\)\}/);
   assert.match(css, /\.scene--contact \.contact-copy h2\{[^}]*font:400 clamp\(42px,4\.4vw,68px\)/);
   assert.doesNotMatch(css, /\/\* Closing title card \*\//);
   assert.ok(image.isFile());
-  assert.ok(image.size > 500_000);
+  assert.ok(image.size > 300_000);
 });
 
 test('light scenes opt into contrasting fixed header controls and hot list shows six rows', async () => {

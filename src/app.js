@@ -20,8 +20,6 @@ const hotTabs = [...document.querySelectorAll('.trend-tab')];
 const hotPanel = document.querySelector('#trend-panel');
 const trendSignal = document.querySelector('.trend-signal');
 const deepFieldCanvas = document.querySelector('.deep-field-canvas');
-const interestNodes = [...document.querySelectorAll('.interest-node')];
-const interestDetail = document.querySelector('.interest-detail');
 const remoteSceneMedia = [...document.querySelectorAll('[data-bg-src]')];
 const musicStatus = document.querySelector('.music-status');
 const musicRetry = document.querySelector('.music-retry');
@@ -171,42 +169,6 @@ scenes.forEach((scene) => sceneObserver.observe(scene));
 const finePointer = matchMedia('(pointer: fine)');
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
-const interestContent = {
-  sound: { index: '01 / SOUND', title: '声音', description: '环境电子、深夜电台、现场录音、能听见空间感的音乐。' },
-  games: { index: '02 / GAMES', title: '游戏', description: '独立叙事、小型模拟、允许慢慢探索且不急着给答案的世界。' },
-  tools: { index: '03 / TOOLS', title: '工具', description: '本地优先、自动化、明确的按钮，以及真正减少重复劳动的软件。' },
-  objects: { index: '04 / OBJECTS', title: '物件', description: '旧设备、小灯、纸张、旋钮和那些会留下使用痕迹的东西。' },
-};
-
-function setActiveInterest(id, { focus = false } = {}) {
-  const content = interestContent[id];
-  const nextIndex = interestNodes.findIndex((node) => node.dataset.interest === id);
-  if (!content || nextIndex === -1) return;
-
-  interestNodes.forEach((node, index) => {
-    const selected = index === nextIndex;
-    node.setAttribute('aria-selected', String(selected));
-    node.tabIndex = selected ? 0 : -1;
-  });
-  interestDetail.querySelector('.interest-detail__eyebrow').textContent = content.index;
-  interestDetail.querySelector('h3').textContent = content.title;
-  interestDetail.querySelector('p:last-child').textContent = content.description;
-  if (focus) interestNodes[nextIndex].focus();
-}
-
-interestNodes.forEach((node, index) => {
-  node.addEventListener('click', () => setActiveInterest(node.dataset.interest));
-  node.addEventListener('keydown', (event) => {
-    const offsets = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
-    let nextIndex = index;
-    if (event.key in offsets) nextIndex = (index + offsets[event.key] + interestNodes.length) % interestNodes.length;
-    else if (event.key === 'Home') nextIndex = 0;
-    else if (event.key === 'End') nextIndex = interestNodes.length - 1;
-    else return;
-    event.preventDefault();
-    setActiveInterest(interestNodes[nextIndex].dataset.interest, { focus: true });
-  });
-});
 
 function initDeepField(canvas) {
   if (!canvas) return;

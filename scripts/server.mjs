@@ -13,6 +13,7 @@ const defaultRoot = fileURLToPath(new URL('..', import.meta.url));
 
 const contentTypes = {
   '.css': 'text/css; charset=utf-8',
+  '.webp': 'image/webp',
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
