@@ -78,7 +78,7 @@
           </div>
           <div class="works-constellation" data-active-work="homepage">
             <svg class="constellation-lines" aria-hidden="true" viewBox="0 0 1000 260" preserveAspectRatio="none">
-              <path class="orbital-track" d="M90 154 L220 197 L360 74 L650 116 L890 48 L920 130" vector-effect="non-scaling-stroke"></path>
+              <path class="orbital-track" d="M90 154 L220 197 L360 74 L650 116 L890 48" vector-effect="non-scaling-stroke"></path>
             </svg>
             <div class="work-orbit" role="tablist" aria-label="项目轨道">
               <button class="work-star work-star--homepage" id="work-star-homepage" type="button" role="tab" aria-selected="true" aria-controls="work-panel-homepage" data-work-star="homepage" data-work-title="Personal Scenes">
@@ -93,14 +93,11 @@
               <button class="work-star work-star--indie" id="work-star-indie" type="button" role="tab" aria-selected="false" aria-controls="work-panel-indie" data-work-star="indie" data-work-title="作品星图" tabindex="-1">
                 <span class="work-star__point" aria-hidden="true"></span><span class="work-star__label"><small>04 / PROJECT DIRECTORY</small><strong>作品星图</strong></span>
               </button>
-              <button class="work-star work-star--snake" id="work-star-snake" type="button" role="tab" aria-selected="false" aria-controls="work-panel-snake" data-work-star="snake" data-work-title="Snake Arcade" tabindex="-1">
-                <span class="work-star__point" aria-hidden="true"></span><span class="work-star__label"><small>05 / BROWSER GAME</small><strong>Snake Arcade</strong></span>
-              </button>
               <button class="work-star work-star--converter" id="work-star-converter" type="button" role="tab" aria-selected="false" aria-controls="work-panel-converter" data-work-star="converter" data-work-title="Session 转换器" tabindex="-1">
-                <span class="work-star__point" aria-hidden="true"></span><span class="work-star__label"><small>06 / SESSION CONVERTER</small><strong>Session 转换器</strong></span>
+                <span class="work-star__point" aria-hidden="true"></span><span class="work-star__label"><small>05 / SESSION CONVERTER</small><strong>Session 转换器</strong></span>
               </button>
             </div>
-            <p class="work-selection-status" aria-live="polite" aria-atomic="true">已选择作品：Personal Scenes，1 / 6</p>
+            <p class="work-selection-status" aria-live="polite" aria-atomic="true">已选择作品：Personal Scenes，1 / 5</p>
             <div class="work-panels">
               <article class="project-entry" id="work-panel-homepage" role="tabpanel" aria-labelledby="work-star-homepage" tabindex="0">
                 <img class="project-entry__preview" src="assets/personal-scenes-preview.png" alt="Aolined Personal Scenes 首页山谷场景" decoding="async">
@@ -153,20 +150,11 @@
                   <a class="project-entry__link" href="https://aolined.github.io/indie-explorer/" target="_blank" rel="noreferrer">打开作品星图 <span aria-hidden="true">↗</span></a>
                 </div>
               </article>
-              <article class="project-entry project-entry--snake" id="work-panel-snake" role="tabpanel" aria-labelledby="work-star-snake" tabindex="0" hidden>
-                <img class="project-entry__preview" src="assets/snake/snake-preview.png" alt="Snake Arcade 贪吃蛇游戏界面" decoding="async">
-                <div class="project-entry__body">
-                  <div class="project-entry__index"><span>05</span><small>BROWSER GAME</small></div>
-                  <h3 id="snake-work-title">Snake Arcade</h3>
-                  <p>浏览器贪吃蛇小游戏：键盘 / 触控滑动控制，连击计分与冲刺加速，经典规则即时可玩。</p>
-                  <div class="project-entry__meta"><span>2026</span><span>HTML / CSS / JAVASCRIPT</span></div>
-                  <a class="project-entry__link" href="snake.html">开始游戏 <span aria-hidden="true">↗</span></a>
-                </div>
-              </article>
+              
               <article class="project-entry project-entry--converter" id="work-panel-converter" role="tabpanel" aria-labelledby="work-star-converter" tabindex="0" hidden>
                 <img class="project-entry__preview" src="assets/chatgpt-sess/preview.png" alt="Session 转换器：ChatGPT 会话转多工具格式" decoding="async">
                 <div class="project-entry__body">
-                  <div class="project-entry__index"><span>06</span><small>SESSION CONVERTER</small></div>
+                  <div class="project-entry__index"><span>05</span><small>SESSION CONVERTER</small></div>
                   <h3 id="converter-work-title">Session 转换器</h3>
                   <p>纯前端工具，把 ChatGPT 会话 JSON 转换成 CPA、sub2api、Cockpit、9router、Codex、AxonHub 等 7 种可导入格式，全程本地处理。</p>
                   <p class="music-license">LOCAL-ONLY · NO UPLOAD · GITHUB PAGES</p>
