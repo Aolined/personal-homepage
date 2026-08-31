@@ -32,7 +32,7 @@ test('works section contains all five real projects without adding another scene
   assert.match(html, /https:\/\/aolined\.github\.io\/indie-explorer\//);
   assert.match(html, /assets\/indie-explorer\/indie-preview\.png/);
   assert.match(html, /id="converter-work-title">Session 转换器/);
-  assert.match(html, /assets\/chatgpt-sess\/preview\.png/);
+  assert.match(html, /assets\/chatgpt-sess\/preview\.jpg/);
   assert.match(html, /href="https:\/\/aolined\.github\.io\/chatgpt-sess-converter\/"/);
   assert.doesNotMatch(html, /data-scene="music"/);
 });
