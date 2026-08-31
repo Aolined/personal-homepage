@@ -489,3 +489,10 @@ html{scroll-snap-type:none}
 .site-header[data-tone="light"] .scene-nav a:hover,.site-header[data-tone="light"] .scene-nav a[aria-current=page]{color:#fff}
 .site-header[data-tone="light"] .scene-nav a[aria-current=page] span{color:var(--accent)}
 @media(max-width:720px){.site-header,.site-header[data-tone="light"]{background:rgba(8,10,9,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}}
+
+/* Current signals strip: visible, concrete daily signals below the interest grid. */
+.current-signals{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:5vh;background:rgba(21,23,21,.1)}
+.signal-item{display:grid;gap:8px;padding:16px 18px;background:rgba(217,215,207,.7)}
+.signal-label{font-size:7px;letter-spacing:.14em;color:#62726a;text-transform:uppercase}
+.signal-value{font-size:11px;line-height:1.5;color:#1f211f;font-family:Georgia,"Microsoft YaHei",serif}
+@media(max-width:720px){.current-signals{grid-template-columns:1fr;margin-top:3vh}.signal-item{padding:13px 16px}}
