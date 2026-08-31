@@ -13,10 +13,10 @@ test('ships six ordered scenes including a single truthful works scene', async (
   assert.match(html, /Aolined Personal Scenes/);
 });
 
-test('works section contains all five real projects without adding another scene', async () => {
+test('works section contains all six real projects without adding another scene', async () => {
   const html = await read('index.html');
 
-  assert.equal((html.match(/class="project-entry(?:\s|")/g) || []).length, 5);
+  assert.equal((html.match(/class="project-entry(?:\s|")/g) || []).length, 6);
   assert.match(html, /Aolined Personal Scenes/);
   assert.match(html, /id="echo-work-title">Echo Music/);
   assert.match(html, /assets\/echo-music\/player-preview\.png/);
@@ -37,7 +37,7 @@ test('works section contains all five real projects without adding another scene
   assert.doesNotMatch(html, /data-scene="music"/);
 });
 
-test('works section exposes an accessible five-project orbital index', async () => {
+test('works section exposes an accessible six-project orbital index', async () => {
   const [html, app, css] = await Promise.all([read('index.html'), read('src/app.js'), read('styles.css')]);
 
   assert.match(html, /class="works-constellation"/);
@@ -47,8 +47,8 @@ test('works section exposes an accessible five-project orbital index', async () 
   assert.doesNotMatch(html, /project-entry__visual--monogram/);
   assert.match(html, /id="works-title">项目轨道/);
   assert.match(html, /role="tablist"[^>]+aria-label="项目轨道"/);
-  assert.equal((html.match(/class="work-star[^"]*"[^>]+role="tab"/g) || []).length, 5);
-  assert.equal((html.match(/class="project-entry[^"]*"[^>]+role="tabpanel"/g) || []).length, 5);
+  assert.equal((html.match(/class="work-star[^"]*"[^>]+role="tab"/g) || []).length, 6);
+  assert.equal((html.match(/class="project-entry[^"]*"[^>]+role="tabpanel"/g) || []).length, 6);
   assert.match(html, /class="work-selection-status"[^>]+aria-live="polite"/);
   assert.match(app, /function setActiveWork/);
   assert.match(app, /ArrowRight/);
