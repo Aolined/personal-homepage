@@ -21,7 +21,7 @@ test('works section contains all five real projects without adding another scene
   assert.match(html, /id="echo-work-title">Echo Music/);
   assert.match(html, /assets\/echo-music\/player-preview\.png/);
   assert.match(html, /id="format-work-title">格式工坊/);
-  assert.match(html, /assets\/format-workshop\/workshop-preview\.png/);
+  assert.match(html, /assets\/format-workshop\/workshop-preview\.webp/);
   assert.match(html, /https:\/\/aolined-format-workshop\.onrender\.com/);
   assert.match(html, /id="indie-work-title">作品星图/);
   assert.match(html, /Maker Constellation/);
