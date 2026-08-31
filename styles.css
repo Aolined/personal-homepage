@@ -483,9 +483,9 @@ html{scroll-snap-type:none}
 /* Very slow flow on the light scenes (about/interests) so the paper-light feels alive. */
 
 
-/* Unified top bar: always dark + white text, regardless of scene tone. */
-.site-header,.site-header[data-tone="light"]{background:rgba(7,10,9,.82);color:#fff;text-shadow:none}
-.site-header[data-tone="light"] .scene-nav a,.site-header[data-tone="light"] .scene-nav a span{color:rgba(255,255,255,.5)}
+/* Frosted-glass top bar: unified semi-transparent + blur, reads naturally on any scene. */
+.site-header,.site-header[data-tone="light"]{background:rgba(8,10,9,.35);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#fff;text-shadow:none}
+.site-header[data-tone="light"] .scene-nav a,.site-header[data-tone="light"] .scene-nav a span{color:rgba(255,255,255,.6)}
 .site-header[data-tone="light"] .scene-nav a:hover,.site-header[data-tone="light"] .scene-nav a[aria-current=page]{color:#fff}
 .site-header[data-tone="light"] .scene-nav a[aria-current=page] span{color:var(--accent)}
-@media(max-width:720px){.site-header,.site-header[data-tone="light"]{background:rgba(7,10,9,.92)}}
+@media(max-width:720px){.site-header,.site-header[data-tone="light"]{background:rgba(8,10,9,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}}
