@@ -458,6 +458,13 @@ html{scroll-snap-type:none}
   .scene--interests .interest-detail{padding-left:0}
 }
 
+
+/* Works/hot photo backgrounds: deep nebula + night city with shade. */
+.scene--works .scene-media{background-image:url('assets/works-deep.jpg');background-color:#0b0f0e}
+.scene--hot .scene-media{background-image:url('assets/hot-night.jpg');background-color:#142129}
+.scene--works .scene-shade{background:linear-gradient(90deg,rgba(4,8,7,.72) 0%,rgba(4,8,7,.34) 45%,rgba(4,8,7,.22) 100%),linear-gradient(0deg,rgba(4,8,7,.5),transparent 58%)}
+.scene--hot .scene-shade{background:linear-gradient(90deg,rgba(6,12,18,.74) 0%,rgba(6,12,18,.38) 45%,rgba(6,12,18,.24) 100%),linear-gradient(0deg,rgba(6,12,18,.52),transparent 58%)}
+.scene--works .scene-atmos,.scene--hot .scene-atmos{background-color:transparent;opacity:.5}
 /* Works: subtle animated gradient drift (breathing light). */
 .scene--works .scene-atmos{animation:driftLight 12s ease-in-out infinite alternate}
 .scene--hot .scene-atmos{animation:driftLight 14s ease-in-out infinite alternate}
