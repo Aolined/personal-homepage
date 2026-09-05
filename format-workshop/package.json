@@ -12,7 +12,7 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "prebuild": "pnpm sync:ffmpeg",
-    "build": "tsc --noEmit && vite build"
+    "build": "tsc --noEmit && vite build && node scripts/write-headers.mjs"
   },
   "dependencies": {
     "@ffmpeg/core": "0.12.10",

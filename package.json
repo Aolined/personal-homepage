@@ -10,7 +10,8 @@
   },
   "scripts": {
     "start": "node scripts/server.mjs",
-    "check": "node --check scripts/server.mjs && node --check scripts/server-policy.mjs && node --check scripts/ai-hot.mjs && node --check scripts/music-status.mjs && node --check src/app.js",
-    "test": "node scripts/verify.mjs && node --test scripts/ai-hot.test.mjs scripts/github-hot.test.mjs scripts/weibo-hot.test.mjs scripts/music-status.test.mjs scripts/release-contract.test.mjs scripts/server-path.test.mjs scripts/server.test.mjs scripts/ui-contract.test.mjs"
+    "check": "node --check scripts/server.mjs && node --check scripts/server-policy.mjs && node --check scripts/ai-hot.mjs && node --check scripts/music-status.mjs && node --check src/app.js && node --check scripts/build-static.mjs && node --check functions/lib/hot-search-lib.mjs && node --check functions/lib/rate-limit.mjs && node --check functions/api/hot-search.js && node --check functions/api/music-status.js",
+    "test": "node scripts/verify.mjs && node --test scripts/ai-hot.test.mjs scripts/github-hot.test.mjs scripts/weibo-hot.test.mjs scripts/music-status.test.mjs scripts/release-contract.test.mjs scripts/server-path.test.mjs scripts/server.test.mjs scripts/ui-contract.test.mjs scripts/build-static.test.mjs",
+    "build": "node scripts/build-static.mjs"
   }
 }
