@@ -174,9 +174,10 @@ export function normalizeProgress(progress: number): number {
 }
 
 export function getFfmpegAssetPaths(base: string): { core: string; wasm: string } {
+  const wasmHost = (import.meta.env as { VITE_FFMPEG_WASM_URL?: string }).VITE_FFMPEG_WASM_URL;
   return {
     core: `${base}ffmpeg/ffmpeg-core.js`,
-    wasm: `${base}ffmpeg/ffmpeg-core.wasm`,
+    wasm: wasmHost ?? 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm/ffmpeg-core.wasm',
   };
 }
 
