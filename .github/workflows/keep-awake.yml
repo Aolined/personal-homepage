@@ -1,0 +1,46 @@
+name: Keep Render Awake
+
+# Render 免费实例在约 15 分钟无请求后会休眠，再次访问需要 30~60 秒冷启动（期间返回 503）。
+# 本工作流每 10 分钟请求一次各服务的 /healthz，让实例保持常驻。
+#
+# 注意：GitHub 会在仓库连续 60 天无任何活动时自动停用定时任务。
+# 若要更稳定的保活，可另配 UptimeRobot / cron-job.org 等外部监控（间隔 5 分钟）。
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  group: keep-render-awake
+  cancel-in-progress: false
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - name: personal-scenes
+            url: https://aolined-personal-scenes.onrender.com/healthz
+          - name: echo-music
+            url: https://aolined-echo-music.onrender.com/healthz
+    steps:
+      - name: Ping ${{ matrix.target.name }}
+        run: |
+          url="${{ matrix.target.url }}"
+          for i in $(seq 1 8); do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "$url" || echo 000)
+            echo "[$i/8] $url -> HTTP $code"
+            if [ "$code" = "200" ]; then
+              echo "${{ matrix.target.name }} is awake"
+              exit 0
+            fi
+            sleep 15
+          done
+          echo "::warning::${{ matrix.target.name }} 在 2 分钟内未恢复健康（最后 HTTP $code）"
+          exit 1
