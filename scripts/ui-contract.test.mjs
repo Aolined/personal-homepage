@@ -70,7 +70,7 @@ test('works section exposes an accessible five-project orbital index', async () 
 });
 
 test('Indie Explorer preview is a real local image asset', async () => {
-  const preview = await stat(new URL('../assets/indie-explorer/indie-preview.png', import.meta.url));
+  const preview = await stat(new URL('../assets/indie-explorer/indie-preview.webp', import.meta.url));
   assert.ok(preview.isFile());
   assert.ok(preview.size > 50_000);
 });
