@@ -27,6 +27,16 @@ const HEADERS = `/*
   Referrer-Policy: no-referrer
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/*
+  Cache-Control: public, max-age=31536000
+
+/src/*
+  Cache-Control: public, max-age=3600
+
+/styles.css
+  Cache-Control: public, max-age=3600
 `;
 
 export async function buildStatic({ root = rootDir, outDir = join(rootDir, 'dist'), log = console.log } = {}) {
