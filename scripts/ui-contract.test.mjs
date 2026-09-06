@@ -19,7 +19,7 @@ test('works section contains all five real projects without adding another scene
   assert.equal((html.match(/class="project-entry(?:\s|")/g) || []).length, 5);
   assert.match(html, /Aolined Personal Scenes/);
   assert.match(html, /id="echo-work-title">Echo Music/);
-  assert.match(html, /assets\/echo-music\/player-preview\.png/);
+  assert.match(html, /assets\/echo-music\/player-preview\.webp/);
   assert.match(html, /id="format-work-title">格式工坊/);
   assert.match(html, /assets\/format-workshop\/workshop-preview\.webp/);
   assert.match(html, /https:\/\/aolined-format-workshop\.pages\.dev\//);
@@ -30,9 +30,9 @@ test('works section contains all five real projects without adding another scene
   assert.match(html, /原项目访问/);
   assert.match(html, /不托管项目代码/);
   assert.match(html, /https:\/\/indie\.aolined\.icu\//);
-  assert.match(html, /assets\/indie-explorer\/indie-preview\.png/);
+  assert.match(html, /assets\/indie-explorer\/indie-preview\.webp/);
   assert.match(html, /id="converter-work-title">Session 转换器/);
-  assert.match(html, /assets\/chatgpt-sess\/preview\.jpg/);
+  assert.match(html, /assets\/chatgpt-sess\/preview\.webp/);
   assert.match(html, /href="https:\/\/sess\.aolined\.icu\/"/);
   assert.doesNotMatch(html, /data-scene="music"/);
 });
@@ -43,7 +43,7 @@ test('works section exposes an accessible five-project orbital index', async () 
   assert.match(html, /class="works-constellation"/);
   assert.match(html, /class="constellation-lines"[^>]+aria-hidden="true"/);
   assert.match(html, /class="orbital-track"/);
-  assert.match(html, /src="assets\/personal-scenes-preview\.png"/);
+  assert.match(html, /src="assets\/personal-scenes-preview\.webp"/);
   assert.doesNotMatch(html, /project-entry__visual--monogram/);
   assert.match(html, /id="works-title">项目轨道/);
   assert.match(html, /role="tablist"[^>]+aria-label="项目轨道"/);
