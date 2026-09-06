@@ -16,13 +16,13 @@ const rootDir = fileURLToPath(new URL('..', import.meta.url));
 // Static entrypoints referenced by index.html / src/*.js. Keep this list in
 // sync with the site; `assets/` is copied wholesale (it is small and fully
 // referenced by the homepage).
-const STATIC_FILES = ['index.html', 'styles.css', 'snake.html'];
+const STATIC_FILES = ['index.html', 'styles.css', 'snake.html', 'robots.txt', 'sitemap.xml', '404.html'];
 const STATIC_DIRS = ['src', 'assets'];
 
 // Mirrors scripts/server.mjs securityHeaders so edge-hosting behaves like the
 // Node server did. Written as dist/_headers for Cloudflare Pages.
 const HEADERS = `/*
-  Content-Security-Policy: default-src 'self'; img-src 'self' https://images.unsplash.com data:; style-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; frame-ancestors 'none'
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Referrer-Policy: no-referrer
   X-Content-Type-Options: nosniff

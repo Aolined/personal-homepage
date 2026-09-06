@@ -22,18 +22,18 @@ test('works section contains all five real projects without adding another scene
   assert.match(html, /assets\/echo-music\/player-preview\.png/);
   assert.match(html, /id="format-work-title">格式工坊/);
   assert.match(html, /assets\/format-workshop\/workshop-preview\.webp/);
-  assert.match(html, /https:\/\/aolined-format-workshop\.onrender\.com/);
+  assert.match(html, /https:\/\/aolined-format-workshop\.pages\.dev\//);
   assert.match(html, /id="indie-work-title">作品星图/);
   assert.match(html, /Maker Constellation/);
   assert.match(html, /中国独立开发者作品发现目录/);
   assert.match(html, /状态与城市筛选/);
   assert.match(html, /原项目访问/);
   assert.match(html, /不托管项目代码/);
-  assert.match(html, /https:\/\/aolined\.github\.io\/indie-explorer\//);
+  assert.match(html, /https:\/\/indie\.aolined\.icu\//);
   assert.match(html, /assets\/indie-explorer\/indie-preview\.png/);
   assert.match(html, /id="converter-work-title">Session 转换器/);
   assert.match(html, /assets\/chatgpt-sess\/preview\.jpg/);
-  assert.match(html, /href="https:\/\/aolined\.github\.io\/chatgpt-sess-converter\/"/);
+  assert.match(html, /href="https:\/\/sess\.aolined\.icu\/"/);
   assert.doesNotMatch(html, /data-scene="music"/);
 });
 
