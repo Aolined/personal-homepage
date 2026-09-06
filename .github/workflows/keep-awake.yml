@@ -28,7 +28,7 @@ jobs:
           - name: echo-music
             url: https://aolined-echo-music.onrender.com/healthz
           - name: video-watermark-remover
-            url: https://video-watermark-remover.onrender.com/
+            url: https://video-watermark-remover-ycdw.onrender.com/
     steps:
       - name: Ping ${{ matrix.target.name }}
         run: |
